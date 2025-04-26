@@ -5,12 +5,14 @@ import Image from "next/image"
 import { Moon, Plus, Minus } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Separator } from "@/components/ui/separator"
+import { useRouter } from "next/navigation"
 
 export default function GasCylinderApp() {
   const [step, setStep] = useState(1)
   const [cylinderCount, setCylinderCount] = useState(1)
   const [selectedDate, setSelectedDate] = useState("27")
   const [selectedDay, setSelectedDay] = useState("الأحد")
+  const router=useRouter()
 
   const incrementCount = () => {
     setCylinderCount((prev) => prev + 1)
@@ -22,6 +24,9 @@ export default function GasCylinderApp() {
 
   const nextStep = () => {
     setStep((prev) => prev + 1)
+    if(step >3 ){
+      router.push('/address')
+    }
   }
 
   const prevStep = () => {
@@ -34,16 +39,13 @@ export default function GasCylinderApp() {
   }
 
   return (
-    <div className="min-h-screen bg-[#0f1524] text-white flex flex-col" dir="rtl">
+    <div className="min-h-screen bg-[#0f1524] text-white flex flex-col" dir="rtl" style={{zoom:0.9}}>
       {/* Header */}
       <header className="p-4 flex justify-between items-center">
         <h1 className="text-3xl font-bold text-green-500">سلندر غاز</h1>
         <div className="flex items-center gap-2">
-          <Moon className="text-gray-400" size={24} />
+          <Moon className="text-gray-400" size={20} />
           <Button className="bg-green-500 hover:bg-green-600 text-black font-bold rounded-full px-6">اطلب الان</Button>
-          <Button className="bg-green-500 hover:bg-green-600 text-black font-bold rounded-full px-6">
-            تسجيل الدخول
-          </Button>
         </div>
       </header>
 
@@ -127,29 +129,29 @@ export default function GasCylinderApp() {
                 }`}
                 onClick={() => selectDay("27", "الأحد")}
               >
-                <span className="text-xl">27</span>
+                <span className="text-sm">27</span>
                 <span>الأحد</span>
               </Button>
 
               <Button
                 variant="outline"
-                className={`border-green-500 hover:bg-green-500/10 p-4 flex flex-col items-center ${
+                className={`border-green-500 hover:bg-green-500/10 p-2 flex flex-col items-center ${
                   selectedDate === "28" ? "bg-green-500 text-black" : "text-green-500"
                 }`}
                 onClick={() => selectDay("28", "الاثنين")}
               >
-                <span className="text-xl">28</span>
+                <span className="text-sm">28</span>
                 <span>الاثنين</span>
               </Button>
 
               <Button
                 variant="outline"
-                className={`border-green-500 hover:bg-green-500/10 p-4 flex flex-col items-center ${
+                className={`border-green-500 hover:bg-green-500/10 p-2 flex flex-col items-center ${
                   selectedDate === "29" ? "bg-green-500 text-black" : "text-green-500"
                 }`}
                 onClick={() => selectDay("29", "الثلاثاء")}
               >
-                <span className="text-xl">29</span>
+                <span className="text-sm">29</span>
                 <span>الثلاثاء</span>
               </Button>
 
@@ -160,7 +162,7 @@ export default function GasCylinderApp() {
                 }`}
                 onClick={() => selectDay("30", "الأربعاء")}
               >
-                <span className="text-xl">30</span>
+                <span className="text-sm">30</span>
                 <span>الأربعاء</span>
               </Button>
             </div>
@@ -175,7 +177,7 @@ export default function GasCylinderApp() {
 
       {/* Footer */}
       <footer className="p-8 text-center">
-        <h2 className="text-4xl font-bold mb-4 text-gray-300">سلندر غاز</h2>
+        <h2 className="text-sm font-bold mb-4 text-gray-300">سلندر غاز</h2>
         <p className="text-gray-400 max-w-2xl mx-auto leading-relaxed">
           مرحبا بكم في خدمة توصيل اسطوانات الغاز المنزلية الرائدة في الكويت! نحن نسعى لتقديم حلول سريعة وموثوقة وبأسعار
           معقولة لجميع احتياجات الغاز الخاصة بك.
