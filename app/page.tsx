@@ -94,6 +94,7 @@ export default function GasCylinderApp() {
     <div
       className={`min-h-screen ${theme === "light" ? "bg-gray-100 text-gray-900" : "bg-[#0f1524] text-white"} flex flex-col`}
       dir="rtl"
+      style={{zoom:0.9}}
     >
       {/* Header */}
       <header className="p-4 flex justify-between items-center">
@@ -206,7 +207,7 @@ export default function GasCylinderApp() {
 
             {/* Gas Cylinder Image */}
             <div className="mt-8">
-              <Image src="/gas-cylinder.png" alt="Gas Cylinder" width={100} height={200} className="object-contain" />
+              <img src="https://gaskw.com/storage/form-attachments/01JHBJYXM6BJEYNFC3CAV2K9PQ.png" alt="Gas Cylinder" width={100} height={200} className="object-contain" />
             </div>
 
             {/* Navigation Buttons */}
@@ -731,15 +732,7 @@ export default function GasCylinderApp() {
           مرحبا بكم في خدمة توصيل اسطوانات الغاز المنزلية الرائدة في الكويت! نحن نسعى لتقديم حلول سريعة وموثوقة وبأسعار
           معقولة لجميع احتياجات الغاز الخاصة بك.
         </p>
-        <div className="mt-4">
-          <Image
-            src="/kuwait-skyline.jpg"
-            alt="Kuwait Skyline"
-            width={800}
-            height={200}
-            className="w-full h-40 object-cover rounded-lg"
-          />
-        </div>
+        
         <div className="mt-4">
           <Link
             href="/"
