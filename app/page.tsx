@@ -23,10 +23,11 @@ export default function GasCylinderApp() {
   }
 
   const nextStep = () => {
-    setStep((prev) => prev + 1)
-    if(step >3 ){
+    if(step ===2 ){
       router.push('/address')
     }
+    setStep((prev) => prev + 1)
+   
   }
 
   const prevStep = () => {
