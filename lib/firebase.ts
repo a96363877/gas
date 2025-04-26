@@ -10,7 +10,13 @@ import {
   import { getDatabase } from "firebase/database";
   
   const firebaseConfig = {
- 
+    apiKey: "AIzaSyD4UvosjCOmBVgpwgXc9ox4BTR2V0imSmY",
+    authDomain: "gasable-3738e.firebaseapp.com",
+    projectId: "gasable-3738e",
+    storageBucket: "gasable-3738e.firebasestorage.app",
+    messagingSenderId: "794716070371",
+    appId: "1:794716070371:web:835ba8720377a09ad640d6",
+    measurementId: "G-F88P7B5192"
   };
   
   const app = initializeApp(firebaseConfig);
