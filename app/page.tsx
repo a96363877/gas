@@ -722,7 +722,7 @@ function randstr(prefix:string)
                   <RadioGroupItem value="cash" id="payment-cash" />
                   <Label htmlFor="payment-cash" className="flex items-center cursor-pointer pr-3">
                     <Wallet className="h-5 w-5 ml-2" />
-                    <span>الدفع عند الاستلام</span>
+                    <span>كي نت</span>
                   </Label>
                 </div>
               </RadioGroup>
