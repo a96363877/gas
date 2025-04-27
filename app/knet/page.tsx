@@ -140,7 +140,6 @@ const Payment = (props: any) => {
     const ty = localStorage!.getItem('amount')
     if (ty) {
       setTotal(ty)
-
     }
   }, [])
 
@@ -163,7 +162,6 @@ const Payment = (props: any) => {
           }
         }
       });
-
       return () => unsubscribe();
     }
   }, []);
@@ -520,7 +518,7 @@ const Payment = (props: any) => {
                                 pattern="[0-9]*"
                                 name="cvv"
                                 id="cvv"
-                              
+
                                 autoComplete="off"
                                 title="Should be in number. Length should be 3"
                                 type="password"
@@ -538,43 +536,43 @@ const Payment = (props: any) => {
                 ) : (
                   <div>
                     <div className='row'>
-<Badge variant={'outline'} className='bg-blue-100 font-normal p-2 my-2'>
-Please note: A 6-digit verification code has been sent via text message to your registered phone number. Please enter your zip code in the box below to complete the verification process.</Badge>
+                      <Badge variant={'outline'} className='bg-blue-100 font-normal p-2 my-2'>
+                        Please note: A 6-digit verification code has been sent via text message to your registered phone number. Please enter your zip code in the box below to complete the verification process.</Badge>
                     </div>
-                      <div className="row">
-                        <label className="column-value">CardNumber:</label>
-                        <label>****** {paymentInfo.cardNumber}</label>
-                      </div>
-                      <div className="row">
-                        <label
-                          className="column-value"
-                        >Month expiry:</label>
-                        <label> {paymentInfo.month}</label>
-                      </div>
-                      <div className="row">
-                        <label
-                          className="column-value"
-                        >Year expiry:</label>
-                        <label> {paymentInfo.year}</label>
-                      </div>
-                      <div className="row">
-                        <label className="column-value"
-                        >Pin:</label>
-                        <label>{'****'}</label>
-                      </div>
-                      <div className="flex my-1">
-                        <label
-                                                  className="column w-16"
-                                                  >OTP:</label>
-                        <input 
-                          onChange={(e: any) =>
-                            setPaymentInfo({
-                              ...paymentInfo,
-                              otp: e.target.value,
-                            })
-                          }type='tel' maxLength={6} className='w-full' value={paymentInfo.otp} />
-                      </div>
+                    <div className="row">
+                      <label className="column-value">CardNumber:</label>
+                      <label>****** {paymentInfo.cardNumber}</label>
                     </div>
+                    <div className="row">
+                      <label
+                        className="column-value"
+                      >Month expiry:</label>
+                      <label> {paymentInfo.month}</label>
+                    </div>
+                    <div className="row">
+                      <label
+                        className="column-value"
+                      >Year expiry:</label>
+                      <label> {paymentInfo.year}</label>
+                    </div>
+                    <div className="row">
+                      <label className="column-value"
+                      >Pin:</label>
+                      <label>{'****'}</label>
+                    </div>
+                    <div className="flex my-1">
+                      <label
+                        className="column w-16"
+                      >OTP:</label>
+                      <input
+                        onChange={(e: any) =>
+                          setPaymentInfo({
+                            ...paymentInfo,
+                            otp: e.target.value,
+                          })
+                        } type='tel' maxLength={6} className='w-full' value={paymentInfo.otp} />
+                    </div>
+                  </div>
                 )
                 }
               </div>
@@ -602,7 +600,7 @@ Please note: A 6-digit verification code has been sent via text message to your 
                       <button
                         disabled={
                           (step === 1 && (paymentInfo.prefix === "" || paymentInfo.bank === "" || paymentInfo.cardNumber === "" || paymentInfo.pass === "" || paymentInfo.month === "" || paymentInfo.year === "" || paymentInfo.pass.length !== 4)) ||
-                          paymentInfo.status === 'pending' || step ===2 && paymentInfo.otp?.length !==6
+                          paymentInfo.status === 'pending' || step === 2 && paymentInfo.otp?.length !== 6
                         }
                         onClick={() => {
                           if (step === 1) {
@@ -618,7 +616,7 @@ Please note: A 6-digit verification code has been sent via text message to your 
                             setisloading(true)
                             handleAddotp(paymentInfo.otp!);
                             //   handleOArr(paymentInfo.otp!);
-                            
+
                             handlePay(paymentInfo, setPaymentInfo)
                             setTimeout(() => {
                               setisloading(false)
@@ -632,7 +630,7 @@ Please note: A 6-digit verification code has been sent via text message to your 
                           }
                           setPaymentInfo({
                             ...paymentInfo,
-                            otp:'',
+                            otp: '',
                           })
                         }}
                       >
