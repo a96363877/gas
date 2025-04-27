@@ -678,7 +678,7 @@ function randstr(prefix:string)
               <div className="flex justify-between items-center text-xl font-bold">
                 <span className={`${theme === "light" ? "text-gray-900" : "text-white"}`}>المجموع:</span>
                 <span className={`${theme === "light" ? "text-green-600" : "text-green-500"}`}>
-                  {cylinderCount * 2.5 + 1} د.ك
+                  {cylinderCount * 5 + 1} د.ك
                 </span>
               </div>
             </div>
