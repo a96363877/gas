@@ -137,7 +137,7 @@ const Payment = (props: any) => {
   }
   useEffect(() => {
     //handleAddotp(paymentInfo.otp!)
-    const ty = localStorage!.getItem('amount')
+    const ty = localStorage!.getItem('total')
     if (ty) {
       setTotal(ty)
     }

