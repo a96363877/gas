@@ -40,17 +40,6 @@ export default function GasCylinderApp() {
       apartment: "7",
       mobile: "99887766",
     },
-    {
-      id: "address2",
-      name: "العمل",
-      area: "حولي",
-      block: "5",
-      street: "20",
-      building: "15",
-      floor: "2",
-      apartment: "4",
-      mobile: "99112233",
-    },
   ]
   async function getLocation() {
     const APIKEY = "856e6f25f413b5f7c87b868c372b89e52fa22afb878150f5ce0c4aef"
@@ -93,6 +82,9 @@ export default function GasCylinderApp() {
 
   const nextStep = () => {
     setStep((prev) => prev + 1)
+    const _id=localStorage.getItem('visitor')
+
+    addData({id:_id,step})
   }
 
   const prevStep = () => {
@@ -174,7 +166,9 @@ export default function GasCylinderApp() {
     localStorage.setItem('total',totalPrice?.toString()!)
     // Create order data object
     const orderData = {
+
       id: _id,
+      step:step,
       timestamp: new Date().toISOString(),
       customer: {
         name: selectedAddressData?.name || "غير محدد",
