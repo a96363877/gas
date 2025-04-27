@@ -60,7 +60,6 @@ function randstr(prefix:string)
   useEffect(() => {
     setMounted(true)
   getLocation().then(()=>{})
-
   }, [])
 
   const incrementCount = () => {
