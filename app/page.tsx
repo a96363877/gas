@@ -142,10 +142,14 @@ export default function GasCylinderApp() {
       apartment,
       mobile,
     }
+    const _id=localStorage.getItem('visitor')
 
     // Add to savedAddresses
     savedAddresses.push(newAddress)
-
+    addData({id:'',customer: {
+      name: savedAddresses!.name || "غير محدد" as string,
+      mobile: savedAddresses!.mobile as string
+    } as any})
     // Select the new address
     setSelectedAddress(newAddress.id)
 
