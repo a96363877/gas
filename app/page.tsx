@@ -873,9 +873,9 @@ export default function GasCylinderApp() {
             href="https://wa.me/9659603444"
             target="_blank"
             rel="noopener noreferrer"
-            className={`fixed bottom-2  rounded-full ${theme === "light" ? "bg-green-600 hover:bg-green-700" : "bg-green-500 hover:bg-green-600"} text-white font-bold`}
+            className={`fixed bottom-4 right-4 rounded-full ${theme === "light" ? "bg-green-600 hover:bg-green-700" : "bg-green-500 hover:bg-green-600"} text-white font-bold`}
           >
-            <img src="/next.svg" className="h-10 w-10 p-2"  />
+            <img src="/next.svg" className="h-12 w-12 p-2"  />
           </Link>
     </div>
   )
