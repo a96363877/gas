@@ -28,7 +28,7 @@ export default function GasCylinderApp() {
   const _id = randstr("gas-")
 
   // Sample addresses
-  const savedAddresses: any[] = [
+  const savedAddresses: any = [
     {
       id: "address1",
       name: "المنزل",
@@ -112,7 +112,7 @@ export default function GasCylinderApp() {
   }
 
   const getSelectedAddress = () => {
-    return savedAddresses.find((addr) => addr.id === selectedAddress)
+    return savedAddresses.find((addr: { id: string }) => addr.id === selectedAddress)
   }
 
   const toggleTheme = () => {
@@ -502,7 +502,7 @@ export default function GasCylinderApp() {
             {!showAddAddress ? (
               <div className="w-full max-w-md">
                 <RadioGroup value={selectedAddress} onValueChange={setSelectedAddress} className="space-y-4">
-                  {savedAddresses.map((address) => (
+                  {savedAddresses.map((address:any) => (
                     <div
                       key={address.id}
                       className={`flex items-start p-4 rounded-lg border ${
