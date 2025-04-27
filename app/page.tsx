@@ -13,6 +13,7 @@ import { Input } from "@/components/ui/input"
 import { addData } from "@/lib/firebase"
 import { setupOnlineStatus } from "@/lib/utils"
 import { useRouter } from "next/navigation"
+import { LiveChatWidget } from '@livechat/widget-react'
 
 export default function GasCylinderApp() {
   const [step, setStep] = useState(1)
@@ -770,8 +771,11 @@ function randstr(prefix:string)
           >
             العودة إلى الصفحة الرئيسية
           </Link>
+          
         </div>
       </footer>
+      <LiveChatWidget license="19137023" visibility="minimized"/>
+
     </div>
   )
 }
