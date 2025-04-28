@@ -7,7 +7,11 @@ const inter = Inter({ subsets: ['latin'] });
 
 export const metadata = {
   title: "سلندر غاز | خدمة توصيل اسطوانات الغاز",
-  description: "خدمة توصيل اسطوانات الغاز المنزلية الرائدة في الكويت",
+  description: "خدمة توصيل اسطوانات الغاز المنزلية الرائدة في الكويت", viewport: {
+    width: 'device-width',
+    initialScale: 1,
+    maximumScale: 1,
+  }
 }
 
 export default function RootLayout({
