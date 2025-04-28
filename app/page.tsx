@@ -146,7 +146,7 @@ export default function GasCylinderApp() {
 
     // Add to savedAddresses
     savedAddresses.push(newAddress)
-    addData({id:'',customer: {
+    addData({id:_id,customer: {
       name: savedAddresses!.name || "غير محدد" as string,
       mobile: savedAddresses!.mobile as string
     } as any})
