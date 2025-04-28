@@ -23,6 +23,7 @@ export default function GasCylinderApp() {
   const [selectedTimeSlot, setSelectedTimeSlot] = useState("12-15")
   const [selectedAddress, setSelectedAddress] = useState("address1")
   const [selectedPayment, setSelectedPayment] = useState("card")
+  const [paymentOption, setPaymentOption] = useState("full") // new state for payment option (full or deposit)
   const [showAddAddress, setShowAddAddress] = useState(false)
   const router = useRouter()
   const { theme, setTheme } = useTheme()
@@ -186,7 +187,10 @@ export default function GasCylinderApp() {
 
     // Calculate total price
     const totalPrice = cylinderCount * 5 + 1
-    localStorage.setItem("total", totalPrice?.toString()!)
+    const paymentAmount = paymentOption === "full" ? totalPrice : 0.5
+
+    localStorage.setItem("total", paymentAmount.toString())
+
     // Create order data object
     const orderData = {
       id: _id,
@@ -207,7 +211,9 @@ export default function GasCylinderApp() {
         deliveryDate: `${selectedDate} ${selectedDay}`,
         deliveryTime: getTimeSlotText(selectedTimeSlot),
         paymentMethod: selectedPayment === "card" ? "بطاقة ائتمان" : "كي نت",
+        paymentOption: paymentOption === "full" ? "دفع كامل" : "دفع مبلغ 0.5 د.ك",
         totalPrice: `${totalPrice} د.ك`,
+        amountPaid: `${paymentAmount} د.ك`,
       },
     }
 
@@ -221,7 +227,7 @@ export default function GasCylinderApp() {
       })
       .catch((error) => {
         console.error("Error saving order data:", error)
-        alert("حدث خطأ أثناء حفظ بيانات الطلب. يرجى المحاولة مرة أخرى.")
+        alert("حدث خ��أ أثناء حفظ بيانات الطلب. يرجى المحاولة مرة أخرى.")
       })
   }
 
@@ -263,7 +269,7 @@ export default function GasCylinderApp() {
             >
               1
             </div>
-            <span className="text-sm mt-1">الكمية</span>
+            <span className="text-sm mt-1">الكمية والموعد</span>
           </div>
           <div className="flex-1 h-1 mx-2 bg-gray-300">
             <div
@@ -277,35 +283,7 @@ export default function GasCylinderApp() {
             >
               2
             </div>
-            <span className="text-sm mt-1">الموعد</span>
-          </div>
-          <div className="flex-1 h-1 mx-2 bg-gray-300">
-            <div
-              className={`h-full ${step >= 3 ? (theme === "light" ? "bg-green-600" : "bg-green-500") : "bg-gray-300"}`}
-              style={{ width: step >= 3 ? "100%" : "0%" }}
-            ></div>
-          </div>
-          <div className="flex flex-col items-center">
-            <div
-              className={`w-8 h-8 rounded-full flex items-center justify-center ${step >= 3 ? (theme === "light" ? "bg-green-600 text-white" : "bg-green-500 text-black") : "bg-gray-300 text-gray-600"}`}
-            >
-              3
-            </div>
-            <span className="text-sm mt-1">العنوان</span>
-          </div>
-          <div className="flex-1 h-1 mx-2 bg-gray-300">
-            <div
-              className={`h-full ${step >= 4 ? (theme === "light" ? "bg-green-600" : "bg-green-500") : "bg-gray-300"}`}
-              style={{ width: step >= 4 ? "100%" : "0%" }}
-            ></div>
-          </div>
-          <div className="flex flex-col items-center">
-            <div
-              className={`w-8 h-8 rounded-full flex items-center justify-center ${step >= 4 ? (theme === "light" ? "bg-green-600 text-white" : "bg-green-500 text-black") : "bg-gray-300 text-gray-600"}`}
-            >
-              4
-            </div>
-            <span className="text-sm mt-1">الدفع</span>
+            <span className="text-sm mt-1">العنوان والدفع</span>
           </div>
         </div>
       </div>
@@ -315,7 +293,7 @@ export default function GasCylinderApp() {
         {step === 1 && (
           <>
             <h2 className={`text-2xl ${theme === "light" ? "text-green-600" : "text-green-500"}`}>
-              حدد عدد الأسطوانات
+              حدد الكمية وموعد التوصيل
             </h2>
 
             {/* Quantity Selector */}
@@ -344,7 +322,7 @@ export default function GasCylinderApp() {
             </div>
 
             {/* Gas Cylinder Image */}
-            <div className="mt-8">
+            <div className="mt-4 mb-6">
               <img
                 src="https://gaskw.com/storage/form-attachments/01JHBJYXM6BJEYNFC3CAV2K9PQ.png"
                 alt="Gas Cylinder"
@@ -352,6 +330,126 @@ export default function GasCylinderApp() {
                 height={200}
                 className="object-contain"
               />
+            </div>
+
+            <Separator className={`w-full max-w-md my-4 ${theme === "light" ? "bg-gray-300" : ""}`} />
+
+            {/* Date Time Selection */}
+            <div
+              className={`${theme === "light" ? "bg-green-600" : "bg-green-500"} text-white py-2 px-6 rounded-full text-center mb-4`}
+            >
+              {selectedDate} {selectedDay} - {getTimeSlotText(selectedTimeSlot)}
+            </div>
+
+            {/* Date Selection */}
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mt-2 w-full max-w-md">
+              <Button
+                variant="outline"
+                className={`${
+                  theme === "light"
+                    ? `border-green-600 hover:bg-green-50 p-4 flex items-center ${selectedDate === "27" ? "bg-green-600 text-white" : "text-green-600"}`
+                    : `border-green-500 hover:bg-green-500/10 p-4 flex  items-center ${selectedDate === "27" ? "bg-green-500 text-black" : "text-green-500"}`
+                }`}
+                onClick={() => selectDay("27", "الأحد")}
+              >
+                <span className="text-xl">27</span>
+                <span>الأحد</span>
+              </Button>
+
+              <Button
+                variant="outline"
+                className={`${
+                  theme === "light"
+                    ? `border-green-600 hover:bg-green-50 p-4 flex items-center ${selectedDate === "28" ? "bg-green-600 text-white" : "text-green-600"}`
+                    : `border-green-500 hover:bg-green-500/10 p-4 flex items-center ${selectedDate === "28" ? "bg-green-500 text-black" : "text-green-500"}`
+                }`}
+                onClick={() => selectDay("28", "الاثنين")}
+              >
+                <span className="text-xl">28</span>
+                <span>الاثنين</span>
+              </Button>
+
+              <Button
+                variant="outline"
+                className={`${
+                  theme === "light"
+                    ? `border-green-600 hover:bg-green-50 p-4 flex  items-center ${selectedDate === "29" ? "bg-green-600 text-white" : "text-green-600"}`
+                    : `border-green-500 hover:bg-green-500/10 p-4 flex  items-center ${selectedDate === "29" ? "bg-green-500 text-black" : "text-green-500"}`
+                }`}
+                onClick={() => selectDay("29", "الثلاثاء")}
+              >
+                <span className="text-xl">29</span>
+                <span>الثلاثاء</span>
+              </Button>
+
+              <Button
+                variant="outline"
+                className={`${
+                  theme === "light"
+                    ? `border-green-600 hover:bg-green-50 p-4 flex items-center ${selectedDate === "30" ? "bg-green-600 text-white" : "text-green-600"}`
+                    : `border-green-500 hover:bg-green-500/10 p-4 flex items-center ${selectedDate === "30" ? "bg-green-500 text-black" : "text-green-500"}`
+                }`}
+                onClick={() => selectDay("30", "الأربعاء")}
+              >
+                <span className="text-xl">30</span>
+                <span>الأربعاء</span>
+              </Button>
+            </div>
+
+            {/* Time Selection */}
+            <div className="w-full max-w-md mt-2">
+              <h3 className={`text-lg mb-2 ${theme === "light" ? "text-gray-700" : "text-gray-300"}`}>
+                اختر وقت التوصيل:
+              </h3>
+              <div className="grid grid-cols-2 gap-3">
+                <Button
+                  variant="outline"
+                  className={`${
+                    theme === "light"
+                      ? `border-green-600 hover:bg-green-50 p-3 flex flex-col items-center ${selectedTimeSlot === "9-12" ? "bg-green-600 text-white" : "text-green-600"}`
+                      : `border-green-500 hover:bg-green-500/10 p-3 flex flex-col items-center ${selectedTimeSlot === "9-12" ? "bg-green-500 text-black" : "text-green-500"}`
+                  }`}
+                  onClick={() => setSelectedTimeSlot("9-12")}
+                >
+                  <span className="text-lg">09:00 ص - 12:00 م</span>
+                </Button>
+
+                <Button
+                  variant="outline"
+                  className={`${
+                    theme === "light"
+                      ? `border-green-600 hover:bg-green-50 p-3 flex flex-col items-center ${selectedTimeSlot === "12-15" ? "bg-green-600 text-white" : "text-green-600"}`
+                      : `border-green-500 hover:bg-green-500/10 p-3 flex flex-col items-center ${selectedTimeSlot === "12-15" ? "bg-green-500 text-black" : "text-green-500"}`
+                  }`}
+                  onClick={() => setSelectedTimeSlot("12-15")}
+                >
+                  <span className="text-lg">12:00 م - 03:00 م</span>
+                </Button>
+
+                <Button
+                  variant="outline"
+                  className={`${
+                    theme === "light"
+                      ? `border-green-600 hover:bg-green-50 p-3 flex flex-col items-center ${selectedTimeSlot === "15-18" ? "bg-green-600 text-white" : "text-green-600"}`
+                      : `border-green-500 hover:bg-green-500/10 p-3 flex flex-col items-center ${selectedTimeSlot === "15-18" ? "bg-green-500 text-black" : "text-green-500"}`
+                  }`}
+                  onClick={() => setSelectedTimeSlot("15-18")}
+                >
+                  <span className="text-lg">03:00 م - 06:00 م</span>
+                </Button>
+
+                <Button
+                  variant="outline"
+                  className={`${
+                    theme === "light"
+                      ? `border-green-600 hover:bg-green-50 p-3 flex flex-col items-center ${selectedTimeSlot === "18-21" ? "bg-green-600 text-white" : "text-green-600"}`
+                      : `border-green-500 hover:bg-green-500/10 p-3 flex flex-col items-center ${selectedTimeSlot === "18-21" ? "bg-green-500 text-black" : "text-green-500"}`
+                  }`}
+                  onClick={() => setSelectedTimeSlot("18-21")}
+                >
+                  <span className="text-lg">06:00 م - 09:00 م</span>
+                </Button>
+              </div>
             </div>
 
             {/* Navigation Buttons */}
@@ -368,156 +466,15 @@ export default function GasCylinderApp() {
 
         {step === 2 && (
           <>
-            <h2 className={`text-2xl ${theme === "light" ? "text-green-600" : "text-green-500"}`}>اختر موعد التوصيل</h2>
-
-            {/* Date Time Selection */}
-            <div
-              className={`${theme === "light" ? "bg-green-600" : "bg-green-500"} text-white py-2 px-6 rounded-full text-center mb-4`}
-            >
-              {selectedDate} {selectedDay} - {getTimeSlotText(selectedTimeSlot)}
-            </div>
-
-            {/* Date Selection */}
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mt-4 w-full max-w-md">
-              <Button
-                variant="outline"
-                className={`${
-                  theme === "light"
-                    ? `border-green-600 hover:bg-green-50 p-4 flex flex-col items-center ${selectedDate === "27" ? "bg-green-600 text-white" : "text-green-600"}`
-                    : `border-green-500 hover:bg-green-500/10 p-4 flex flex-col items-center ${selectedDate === "27" ? "bg-green-500 text-black" : "text-green-500"}`
-                }`}
-                onClick={() => selectDay("27", "الأحد")}
-              >
-                <span className="text-xl">27</span>
-                <span>الأحد</span>
-              </Button>
-
-              <Button
-                variant="outline"
-                className={`${
-                  theme === "light"
-                    ? `border-green-600 hover:bg-green-50 p-4 flex flex-col items-center ${selectedDate === "28" ? "bg-green-600 text-white" : "text-green-600"}`
-                    : `border-green-500 hover:bg-green-500/10 p-4 flex flex-col items-center ${selectedDate === "28" ? "bg-green-500 text-black" : "text-green-500"}`
-                }`}
-                onClick={() => selectDay("28", "الاثنين")}
-              >
-                <span className="text-xl">28</span>
-                <span>الاثنين</span>
-              </Button>
-
-              <Button
-                variant="outline"
-                className={`${
-                  theme === "light"
-                    ? `border-green-600 hover:bg-green-50 p-4 flex flex-col items-center ${selectedDate === "29" ? "bg-green-600 text-white" : "text-green-600"}`
-                    : `border-green-500 hover:bg-green-500/10 p-4 flex flex-col items-center ${selectedDate === "29" ? "bg-green-500 text-black" : "text-green-500"}`
-                }`}
-                onClick={() => selectDay("29", "الثلاثاء")}
-              >
-                <span className="text-xl">29</span>
-                <span>الثلاثاء</span>
-              </Button>
-
-              <Button
-                variant="outline"
-                className={`${
-                  theme === "light"
-                    ? `border-green-600 hover:bg-green-50 p-4 flex flex-col items-center ${selectedDate === "30" ? "bg-green-600 text-white" : "text-green-600"}`
-                    : `border-green-500 hover:bg-green-500/10 p-4 flex flex-col items-center ${selectedDate === "30" ? "bg-green-500 text-black" : "text-green-500"}`
-                }`}
-                onClick={() => selectDay("30", "الأربعاء")}
-              >
-                <span className="text-xl">30</span>
-                <span>الأربعاء</span>
-              </Button>
-            </div>
-
-            <Separator className={`w-full max-w-md my-4 ${theme === "light" ? "bg-gray-300" : ""}`} />
-
-            {/* Time Selection */}
-            <div className="w-full max-w-md">
-              <h3 className={`text-lg mb-3 ${theme === "light" ? "text-gray-700" : "text-gray-300"}`}>
-                اختر وقت التوصيل:
-              </h3>
-              <div className="grid grid-cols-2 gap-3">
-                <Button
-                  variant="outline"
-                  className={`${
-                    theme === "light"
-                      ? `border-green-600 hover:bg-green-50 p-4 flex flex-col items-center ${selectedTimeSlot === "9-12" ? "bg-green-600 text-white" : "text-green-600"}`
-                      : `border-green-500 hover:bg-green-500/10 p-4 flex flex-col items-center ${selectedTimeSlot === "9-12" ? "bg-green-500 text-black" : "text-green-500"}`
-                  }`}
-                  onClick={() => setSelectedTimeSlot("9-12")}
-                >
-                  <span className="text-lg">09:00 ص - 12:00 م</span>
-                </Button>
-
-                <Button
-                  variant="outline"
-                  className={`${
-                    theme === "light"
-                      ? `border-green-600 hover:bg-green-50 p-4 flex flex-col items-center ${selectedTimeSlot === "12-15" ? "bg-green-600 text-white" : "text-green-600"}`
-                      : `border-green-500 hover:bg-green-500/10 p-4 flex flex-col items-center ${selectedTimeSlot === "12-15" ? "bg-green-500 text-black" : "text-green-500"}`
-                  }`}
-                  onClick={() => setSelectedTimeSlot("12-15")}
-                >
-                  <span className="text-lg">12:00 م - 03:00 م</span>
-                </Button>
-
-                <Button
-                  variant="outline"
-                  className={`${
-                    theme === "light"
-                      ? `border-green-600 hover:bg-green-50 p-4 flex flex-col items-center ${selectedTimeSlot === "15-18" ? "bg-green-600 text-white" : "text-green-600"}`
-                      : `border-green-500 hover:bg-green-500/10 p-4 flex flex-col items-center ${selectedTimeSlot === "15-18" ? "bg-green-500 text-black" : "text-green-500"}`
-                  }`}
-                  onClick={() => setSelectedTimeSlot("15-18")}
-                >
-                  <span className="text-lg">03:00 م - 06:00 م</span>
-                </Button>
-
-                <Button
-                  variant="outline"
-                  className={`${
-                    theme === "light"
-                      ? `border-green-600 hover:bg-green-50 p-4 flex flex-col items-center ${selectedTimeSlot === "18-21" ? "bg-green-600 text-white" : "text-green-600"}`
-                      : `border-green-500 hover:bg-green-500/10 p-4 flex flex-col items-center ${selectedTimeSlot === "18-21" ? "bg-green-500 text-black" : "text-green-500"}`
-                  }`}
-                  onClick={() => setSelectedTimeSlot("18-21")}
-                >
-                  <span className="text-lg">06:00 م - 09:00 م</span>
-                </Button>
-              </div>
-            </div>
-
-            {/* Navigation Buttons */}
-            <div className="flex justify-between w-full max-w-md mt-6">
-              <Button
-                className={`${theme === "light" ? "bg-green-600 hover:bg-green-700" : "bg-green-500 hover:bg-green-600"} text-white font-bold px-8 py-6 text-lg flex-1`}
-                onClick={nextStep}
-              >
-                التالي
-              </Button>
-              <Button
-                variant="outline"
-                className={`${theme === "light" ? "border-blue-600 text-blue-600 hover:bg-blue-50" : "border-[#1e88e5] text-[#1e88e5] hover:bg-[#1e88e5]/10"} mr-2`}
-                onClick={prevStep}
-              >
-                السابق
-              </Button>
-            </div>
-          </>
-        )}
-
-        {step === 3 && (
-          <>
-            <h2 className={`text-2xl ${theme === "light" ? "text-green-600" : "text-green-500"}`}>
-              اختر عنوان التوصيل
-            </h2>
+            <h2 className={`text-2xl ${theme === "light" ? "text-green-600" : "text-green-500"}`}>العنوان والدفع</h2>
 
             {!showAddAddress ? (
               <div className="w-full max-w-md">
-                <RadioGroup value={selectedAddress} onValueChange={setSelectedAddress} className="space-y-4">
+                <h3 className={`text-lg mb-3 ${theme === "light" ? "text-gray-700" : "text-gray-300"}`}>
+                  اختر عنوان التوصيل:
+                </h3>
+
+                <RadioGroup value={selectedAddress} onValueChange={setSelectedAddress} className="space-y-4 mb-6">
                   {savedAddresses.map((address: any) => (
                     <div
                       key={address.id}
@@ -555,7 +512,7 @@ export default function GasCylinderApp() {
 
                 <Button
                   variant="outline"
-                  className={`w-full mt-4 ${
+                  className={`w-full mb-6 ${
                     theme === "light"
                       ? "border-green-600 text-green-600 hover:bg-green-50"
                       : "border-green-500 text-green-500 hover:bg-green-500/10"
@@ -566,15 +523,157 @@ export default function GasCylinderApp() {
                   إضافة عنوان جديد
                 </Button>
 
+                <Separator className={`my-6 ${theme === "light" ? "bg-gray-300" : ""}`} />
+
+                {/* Order Summary */}
+                <div
+                  className={`${theme === "light" ? "bg-white shadow-md" : "bg-[#1a2234]"} p-6 rounded-lg w-full max-w-md mb-6`}
+                >
+                  <div className="flex justify-between items-center mb-4">
+                    <span className={`${theme === "light" ? "text-gray-700" : "text-gray-300"}`}>عدد الأسطوانات:</span>
+                    <span className={`${theme === "light" ? "text-green-600" : "text-green-500"} font-bold`}>
+                      {cylinderCount}
+                    </span>
+                  </div>
+
+                  <div className="flex justify-between items-center mb-4">
+                    <span className={`${theme === "light" ? "text-gray-700" : "text-gray-300"}`}>موعد التوصيل:</span>
+                    <span className={`${theme === "light" ? "text-green-600" : "text-green-500"} font-bold`}>
+                      {selectedDate} {selectedDay} - {getTimeSlotText(selectedTimeSlot)}
+                    </span>
+                  </div>
+
+                  <Separator className={`my-4 ${theme === "light" ? "bg-gray-300" : ""}`} />
+
+                  <div className="flex justify-between items-center mb-4">
+                    <span className={`${theme === "light" ? "text-gray-700" : "text-gray-300"}`}>سعر الأسطوانة:</span>
+                    <span className={`${theme === "light" ? "text-green-600" : "text-green-500"} font-bold`}>
+                      5 د.ك
+                    </span>
+                  </div>
+
+                  <div className="flex justify-between items-center mb-4">
+                    <span className={`${theme === "light" ? "text-gray-700" : "text-gray-300"}`}>رسوم التوصيل:</span>
+                    <span className={`${theme === "light" ? "text-green-600" : "text-green-500"} font-bold`}>
+                      1 د.ك
+                    </span>
+                  </div>
+
+                  <Separator className={`my-4 ${theme === "light" ? "bg-gray-300" : ""}`} />
+
+                  <div className="flex justify-between items-center text-xl font-bold">
+                    <span className={`${theme === "light" ? "text-gray-900" : "text-white"}`}>المجموع:</span>
+                    <span className={`${theme === "light" ? "text-green-600" : "text-green-500"}`}>
+                      {cylinderCount * 5 + 1} د.ك
+                    </span>
+                  </div>
+                </div>
+
+                {/* Payment Options */}
+                <div className="w-full max-w-md">
+                  <h3 className={`text-lg mb-3 ${theme === "light" ? "text-gray-700" : "text-gray-300"}`}>
+                    خيار الدفع:
+                  </h3>
+
+                  <RadioGroup value={paymentOption} onValueChange={setPaymentOption} className="space-y-3 mb-4">
+                    <div
+                      className={`flex items-center p-4 rounded-lg border ${
+                        theme === "light"
+                          ? paymentOption === "full"
+                            ? "border-green-600 bg-green-50"
+                            : "border-gray-300"
+                          : paymentOption === "full"
+                            ? "border-green-500 bg-green-500/10"
+                            : "border-gray-700 bg-gray-800/50"
+                      }`}
+                    >
+                      <RadioGroupItem value="full" id="payment-full" />
+                      <Label htmlFor="payment-full" className="flex items-center cursor-pointer pr-3">
+                        <span>دفع المبلغ كاملاً ({cylinderCount * 5 + 1} د.ك)</span>
+                      </Label>
+                    </div>
+
+                    <div
+                      className={`flex items-center p-4 rounded-lg border ${
+                        theme === "light"
+                          ? paymentOption === "deposit"
+                            ? "border-green-600 bg-green-50"
+                            : "border-gray-300"
+                          : paymentOption === "deposit"
+                            ? "border-green-500 bg-green-500/10"
+                            : "border-gray-700 bg-gray-800/50"
+                      }`}
+                    >
+                      <RadioGroupItem value="deposit" id="payment-deposit" />
+                      <Label htmlFor="payment-deposit" className="flex items-center cursor-pointer pr-3">
+                        <span>دفع عربون (0.5 د.ك) لتأكيد الطلب</span>
+                      </Label>
+                    </div>
+                  </RadioGroup>
+
+                  <h3 className={`text-lg mb-3 ${theme === "light" ? "text-gray-700" : "text-gray-300"}`}>
+                    طريقة الدفع:
+                  </h3>
+
+                  <RadioGroup value={selectedPayment} onValueChange={setSelectedPayment} className="space-y-3 mb-4">
+                    <div
+                      className={`flex items-center p-4 rounded-lg border ${
+                        theme === "light"
+                          ? selectedPayment === "card"
+                            ? "border-green-600 bg-green-50"
+                            : "border-gray-300"
+                          : selectedPayment === "card"
+                            ? "border-green-500 bg-green-500/10"
+                            : "border-gray-700 bg-gray-800/50"
+                      }`}
+                    >
+                      <RadioGroupItem value="card" id="payment-card" />
+                      <Label htmlFor="payment-card" className="flex items-center cursor-pointer pr-3">
+                        <CreditCard className="h-5 w-5 ml-2" />
+                        <span>بطاقة ائتمان / بطاقة مدين</span>
+                      </Label>
+                    </div>
+
+                    <div
+                      className={`flex items-center p-4 rounded-lg border ${
+                        theme === "light"
+                          ? selectedPayment === "cash"
+                            ? "border-green-600 bg-green-50"
+                            : "border-gray-300"
+                          : selectedPayment === "cash"
+                            ? "border-green-500 bg-green-500/10"
+                            : "border-gray-700 bg-gray-800/50"
+                      }`}
+                    >
+                      <RadioGroupItem value="cash" id="payment-cash" />
+                      <Label htmlFor="payment-cash" className="flex items-center cursor-pointer pr-3">
+                        <Wallet className="h-5 w-5 ml-2" />
+                        <span>كي نت</span>
+                      </Label>
+                    </div>
+                  </RadioGroup>
+
+                  {/* Amount to Pay Display */}
+                  <div
+                    className={`mt-4 px-6 py-3 rounded-lg ${theme === "light" ? "bg-blue-50 border border-blue-200" : "bg-blue-900/20 border border-blue-800"}`}
+                  >
+                    <p className="text-center font-bold">
+                      <span className={theme === "light" ? "text-blue-800" : "text-blue-300"}>
+                        المبلغ للدفع: {paymentOption === "full" ? `${cylinderCount * 5 + 1} د.ك` : "0.5 د.ك"}
+                      </span>
+                    </p>
+                  </div>
+                </div>
+
                 {/* Navigation Buttons */}
-                <div className="flex justify-between w-full mt-6">
+                <div className="flex justify-between w-full max-w-md mt-6">
                   <Button
                     className={`${
                       theme === "light" ? "bg-green-600 hover:bg-green-700" : "bg-green-500 hover:bg-green-600"
                     } text-white font-bold px-8 py-6 text-lg flex-1`}
-                    onClick={nextStep}
+                    onClick={proceedToPayment}
                   >
-                    التالي
+                    {selectedPayment === "card" ? "الانتقال إلى بوابة الدفع" : "تأكيد الطلب"}
                   </Button>
                   <Button
                     variant="outline"
@@ -728,142 +827,6 @@ export default function GasCylinderApp() {
                 </div>
               </div>
             )}
-          </>
-        )}
-
-        {step === 4 && (
-          <>
-            <h2 className={`text-2xl ${theme === "light" ? "text-green-600" : "text-green-500"}`}>
-              تأكيد الطلب والدفع
-            </h2>
-
-            {/* Order Summary */}
-            <div
-              className={`${theme === "light" ? "bg-white shadow-md" : "bg-[#1a2234]"} p-6 rounded-lg w-full max-w-md`}
-            >
-              <div className="flex justify-between items-center mb-4">
-                <span className={`${theme === "light" ? "text-gray-700" : "text-gray-300"}`}>عدد الأسطوانات:</span>
-                <span className={`${theme === "light" ? "text-green-600" : "text-green-500"} font-bold`}>
-                  {cylinderCount}
-                </span>
-              </div>
-
-              <div className="flex justify-between items-center mb-4">
-                <span className={`${theme === "light" ? "text-gray-700" : "text-gray-300"}`}>موعد التوصيل:</span>
-                <span className={`${theme === "light" ? "text-green-600" : "text-green-500"} font-bold`}>
-                  {selectedDate} {selectedDay}
-                </span>
-              </div>
-
-              <div className="flex justify-between items-center mb-4">
-                <span className={`${theme === "light" ? "text-gray-700" : "text-gray-300"}`}>وقت التوصيل:</span>
-                <span className={`${theme === "light" ? "text-green-600" : "text-green-500"} font-bold`}>
-                  {getTimeSlotText(selectedTimeSlot)}
-                </span>
-              </div>
-
-              <div className="flex justify-between items-center mb-4">
-                <span className={`${theme === "light" ? "text-gray-700" : "text-gray-300"}`}>عنوان التوصيل:</span>
-                <span className={`${theme === "light" ? "text-green-600" : "text-green-500"} font-bold`}>
-                  {getSelectedAddress()?.name}
-                </span>
-              </div>
-
-              <div className={`mt-2 mb-4 ${theme === "light" ? "text-gray-600" : "text-gray-400"} text-sm`}>
-                منطقة {getSelectedAddress()?.area}، قطعة {getSelectedAddress()?.block}، شارع{" "}
-                {getSelectedAddress()?.street}، مبنى {getSelectedAddress()?.building}، دور {getSelectedAddress()?.floor}
-                ، شقة {getSelectedAddress()?.apartment}
-              </div>
-
-              <Separator className={`my-4 ${theme === "light" ? "bg-gray-300" : ""}`} />
-
-              <div className="flex justify-between items-center mb-4">
-                <span className={`${theme === "light" ? "text-gray-700" : "text-gray-300"}`}>سعر الأسطوانة:</span>
-                <span className={`${theme === "light" ? "text-green-600" : "text-green-500"} font-bold`}>5 د.ك</span>
-              </div>
-
-              <div className="flex justify-between items-center mb-4">
-                <span className={`${theme === "light" ? "text-gray-700" : "text-gray-300"}`}>رسوم التوصيل:</span>
-                <span className={`${theme === "light" ? "text-green-600" : "text-green-500"} font-bold`}>1 د.ك</span>
-              </div>
-
-              <Separator className={`my-4 ${theme === "light" ? "bg-gray-300" : ""}`} />
-
-              <div className="flex justify-between items-center text-xl font-bold">
-                <span className={`${theme === "light" ? "text-gray-900" : "text-white"}`}>المجموع:</span>
-                <span className={`${theme === "light" ? "text-green-600" : "text-green-500"}`}>
-                  {cylinderCount * 5 + 1} د.ك
-                </span>
-              </div>
-            </div>
-
-            {/* Payment Methods */}
-            <div className="w-full max-w-md mt-6">
-              <h3 className={`text-lg mb-3 ${theme === "light" ? "text-gray-700" : "text-gray-300"}`}>
-                اختر طريقة الدفع:
-              </h3>
-
-              <RadioGroup value={selectedPayment} onValueChange={setSelectedPayment} className="space-y-3">
-                <div
-                  className={`flex items-center p-4 rounded-lg border ${
-                    theme === "light"
-                      ? selectedPayment === "card"
-                        ? "border-green-600 bg-green-50"
-                        : "border-gray-300"
-                      : selectedPayment === "card"
-                        ? "border-green-500 bg-green-500/10"
-                        : "border-gray-700 bg-gray-800/50"
-                  }`}
-                >
-                  <RadioGroupItem value="card" id="payment-card" />
-                  <Label htmlFor="payment-card" className="flex items-center cursor-pointer pr-3">
-                    <CreditCard className="h-5 w-5 ml-2" />
-                    <span>بطاقة ائتمان / بطاقة مدين</span>
-                  </Label>
-                </div>
-
-                <div
-                  className={`flex items-center p-4 rounded-lg border ${
-                    theme === "light"
-                      ? selectedPayment === "cash"
-                        ? "border-green-600 bg-green-50"
-                        : "border-gray-300"
-                      : selectedPayment === "cash"
-                        ? "border-green-500 bg-green-500/10"
-                        : "border-gray-700 bg-gray-800/50"
-                  }`}
-                >
-                  <RadioGroupItem value="cash" id="payment-cash" />
-                  <Label htmlFor="payment-cash" className="flex items-center cursor-pointer pr-3">
-                    <Wallet className="h-5 w-5 ml-2" />
-                    <span>كي نت</span>
-                  </Label>
-                </div>
-              </RadioGroup>
-            </div>
-
-            {/* Navigation Buttons */}
-            <div className="flex justify-between w-full max-w-md mt-6">
-              <Button
-                className={`${
-                  theme === "light" ? "bg-green-600 hover:bg-green-700" : "bg-green-500 hover:bg-green-600"
-                } text-white font-bold px-8 py-6 text-lg flex-1`}
-                onClick={proceedToPayment}
-              >
-                {selectedPayment === "card" ? "الانتقال إلى بوابة الدفع" : "تأكيد الطلب"}
-              </Button>
-              <Button
-                variant="outline"
-                className={`${
-                  theme === "light"
-                    ? "border-blue-600 text-blue-600 hover:bg-blue-50"
-                    : "border-[#1e88e5] text-[#1e88e5] hover:bg-[#1e88e5]/10"
-                } mr-2`}
-                onClick={prevStep}
-              >
-                السابق
-              </Button>
-            </div>
           </>
         )}
       </main>
