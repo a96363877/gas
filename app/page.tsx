@@ -17,6 +17,7 @@ export default function GasCylinderApp() {
   const [step, setStep] = useState(1)
   const [cylinderCount, setCylinderCount] = useState(1)
   const [selectedDate, setSelectedDate] = useState("27")
+  const [mobile, setMobile] = useState("")
   const [selectedDay, setSelectedDay] = useState("الأحد")
   const [selectedTimeSlot, setSelectedTimeSlot] = useState("12-15")
   const [selectedAddress, setSelectedAddress] = useState("address1")
@@ -182,7 +183,7 @@ export default function GasCylinderApp() {
         building: selectedAddressData?.building || "غير محدد",
         floor: selectedAddressData?.floor || "غير محدد",
         apartment: selectedAddressData?.apartment || "غير محدد",
-        mobile: selectedAddressData?.mobile || "غير محدد",
+        mobile: selectedAddressData?.mobile ||mobile,
       },
       order: {
         cylinderCount: cylinderCount,
@@ -680,6 +681,7 @@ export default function GasCylinderApp() {
                     <Input
                       id="mobile"
                       placeholder="رقم الهاتف المحمول"
+                      onChange={(e)=>setMobile(e.target.value)}
                       className={`mt-1 ${
                         theme === "light" ? "bg-gray-50 border-gray-300" : "bg-gray-700 border-gray-600"
                       }`}
