@@ -191,7 +191,6 @@ export default function GasCylinderApp() {
         paymentMethod: selectedPayment === "card" ? "بطاقة ائتمان" : "كي نت",
         totalPrice: `${totalPrice} د.ك`,
       },
-      status: "pending",
     }
 
     // Save order data to Firebase
