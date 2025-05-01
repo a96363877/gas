@@ -350,10 +350,10 @@ export default function GasCylinderApp() {
                     ? `border-green-600 hover:bg-green-50 p-4 flex items-center ${selectedDate === "27" ? "bg-green-600 text-white" : "text-green-600"}`
                     : `border-green-500 hover:bg-green-500/10 p-4 flex  items-center ${selectedDate === "27" ? "bg-green-500 text-black" : "text-green-500"}`
                 }`}
-                onClick={() => selectDay("27", "الأحد")}
+                onClick={() => selectDay("01", "الخميس")}
               >
-                <span className="text-xl">27</span>
-                <span>الأحد</span>
+                <span className="text-xl">01</span>
+                <span>الخميس</span>
               </Button>
 
               <Button
@@ -363,10 +363,10 @@ export default function GasCylinderApp() {
                     ? `border-green-600 hover:bg-green-50 p-4 flex items-center ${selectedDate === "28" ? "bg-green-600 text-white" : "text-green-600"}`
                     : `border-green-500 hover:bg-green-500/10 p-4 flex items-center ${selectedDate === "28" ? "bg-green-500 text-black" : "text-green-500"}`
                 }`}
-                onClick={() => selectDay("28", "الاثنين")}
+                onClick={() => selectDay("02", "الجمعة")}
               >
-                <span className="text-xl">28</span>
-                <span>الاثنين</span>
+                <span className="text-xl">02</span>
+                <span>الجمعة</span>
               </Button>
 
               <Button
@@ -376,10 +376,10 @@ export default function GasCylinderApp() {
                     ? `border-green-600 hover:bg-green-50 p-4 flex  items-center ${selectedDate === "29" ? "bg-green-600 text-white" : "text-green-600"}`
                     : `border-green-500 hover:bg-green-500/10 p-4 flex  items-center ${selectedDate === "29" ? "bg-green-500 text-black" : "text-green-500"}`
                 }`}
-                onClick={() => selectDay("29", "الثلاثاء")}
+                onClick={() => selectDay("2", "الثلاثاء")}
               >
-                <span className="text-xl">29</span>
-                <span>الثلاثاء</span>
+                <span className="text-xl">03</span>
+                <span>السبت</span>
               </Button>
 
               <Button
@@ -391,8 +391,8 @@ export default function GasCylinderApp() {
                 }`}
                 onClick={() => selectDay("30", "الأربعاء")}
               >
-                <span className="text-xl">30</span>
-                <span>الأربعاء</span>
+                <span className="text-xl">04</span>
+                <span>الاحد</span>
               </Button>
             </div>
 
