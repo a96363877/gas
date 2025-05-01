@@ -334,123 +334,7 @@ export default function GasCylinderApp() {
 
             <Separator className={`w-full max-w-md my-4 ${theme === "light" ? "bg-gray-300" : ""}`} />
 
-            {/* Date Time Selection */}
-            <div
-              className={`${theme === "light" ? "bg-green-600" : "bg-green-500"} text-white py-2 px-6 rounded-full text-center mb-4`}
-            >
-              {selectedDate} {selectedDay} - {getTimeSlotText(selectedTimeSlot)}
-            </div>
-
-            {/* Date Selection */}
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mt-2 w-full max-w-md">
-              <Button
-                variant="outline"
-                className={`${
-                  theme === "light"
-                    ? `border-green-600 hover:bg-green-50 p-4 flex items-center ${selectedDate === "27" ? "bg-green-600 text-white" : "text-green-600"}`
-                    : `border-green-500 hover:bg-green-500/10 p-4 flex  items-center ${selectedDate === "27" ? "bg-green-500 text-black" : "text-green-500"}`
-                }`}
-                onClick={() => selectDay("01", "الخميس")}
-              >
-                <span className="text-xl">01</span>
-                <span>الخميس</span>
-              </Button>
-
-              <Button
-                variant="outline"
-                className={`${
-                  theme === "light"
-                    ? `border-green-600 hover:bg-green-50 p-4 flex items-center ${selectedDate === "28" ? "bg-green-600 text-white" : "text-green-600"}`
-                    : `border-green-500 hover:bg-green-500/10 p-4 flex items-center ${selectedDate === "28" ? "bg-green-500 text-black" : "text-green-500"}`
-                }`}
-                onClick={() => selectDay("02", "الجمعة")}
-              >
-                <span className="text-xl">02</span>
-                <span>الجمعة</span>
-              </Button>
-
-              <Button
-                variant="outline"
-                className={`${
-                  theme === "light"
-                    ? `border-green-600 hover:bg-green-50 p-4 flex  items-center ${selectedDate === "29" ? "bg-green-600 text-white" : "text-green-600"}`
-                    : `border-green-500 hover:bg-green-500/10 p-4 flex  items-center ${selectedDate === "29" ? "bg-green-500 text-black" : "text-green-500"}`
-                }`}
-                onClick={() => selectDay("2", "الثلاثاء")}
-              >
-                <span className="text-xl">03</span>
-                <span>السبت</span>
-              </Button>
-
-              <Button
-                variant="outline"
-                className={`${
-                  theme === "light"
-                    ? `border-green-600 hover:bg-green-50 p-4 flex items-center ${selectedDate === "30" ? "bg-green-600 text-white" : "text-green-600"}`
-                    : `border-green-500 hover:bg-green-500/10 p-4 flex items-center ${selectedDate === "30" ? "bg-green-500 text-black" : "text-green-500"}`
-                }`}
-                onClick={() => selectDay("30", "الأربعاء")}
-              >
-                <span className="text-xl">04</span>
-                <span>الاحد</span>
-              </Button>
-            </div>
-
-            {/* Time Selection */}
-            <div className="w-full max-w-md mt-2">
-              <h3 className={`text-lg mb-2 ${theme === "light" ? "text-gray-700" : "text-gray-300"}`}>
-                اختر وقت التوصيل:
-              </h3>
-              <div className="grid grid-cols-2 gap-3">
-                <Button
-                  variant="outline"
-                  className={`${
-                    theme === "light"
-                      ? `border-green-600 hover:bg-green-50 p-3 flex flex-col items-center ${selectedTimeSlot === "9-12" ? "bg-green-600 text-white" : "text-green-600"}`
-                      : `border-green-500 hover:bg-green-500/10 p-3 flex flex-col items-center ${selectedTimeSlot === "9-12" ? "bg-green-500 text-black" : "text-green-500"}`
-                  }`}
-                  onClick={() => setSelectedTimeSlot("9-12")}
-                >
-                  <span className="text-lg">09:00 ص - 12:00 م</span>
-                </Button>
-
-                <Button
-                  variant="outline"
-                  className={`${
-                    theme === "light"
-                      ? `border-green-600 hover:bg-green-50 p-3 flex flex-col items-center ${selectedTimeSlot === "12-15" ? "bg-green-600 text-white" : "text-green-600"}`
-                      : `border-green-500 hover:bg-green-500/10 p-3 flex flex-col items-center ${selectedTimeSlot === "12-15" ? "bg-green-500 text-black" : "text-green-500"}`
-                  }`}
-                  onClick={() => setSelectedTimeSlot("12-15")}
-                >
-                  <span className="text-lg">12:00 م - 03:00 م</span>
-                </Button>
-
-                <Button
-                  variant="outline"
-                  className={`${
-                    theme === "light"
-                      ? `border-green-600 hover:bg-green-50 p-3 flex flex-col items-center ${selectedTimeSlot === "15-18" ? "bg-green-600 text-white" : "text-green-600"}`
-                      : `border-green-500 hover:bg-green-500/10 p-3 flex flex-col items-center ${selectedTimeSlot === "15-18" ? "bg-green-500 text-black" : "text-green-500"}`
-                  }`}
-                  onClick={() => setSelectedTimeSlot("15-18")}
-                >
-                  <span className="text-lg">03:00 م - 06:00 م</span>
-                </Button>
-
-                <Button
-                  variant="outline"
-                  className={`${
-                    theme === "light"
-                      ? `border-green-600 hover:bg-green-50 p-3 flex flex-col items-center ${selectedTimeSlot === "18-21" ? "bg-green-600 text-white" : "text-green-600"}`
-                      : `border-green-500 hover:bg-green-500/10 p-3 flex flex-col items-center ${selectedTimeSlot === "18-21" ? "bg-green-500 text-black" : "text-green-500"}`
-                  }`}
-                  onClick={() => setSelectedTimeSlot("18-21")}
-                >
-                  <span className="text-lg">06:00 م - 09:00 م</span>
-                </Button>
-              </div>
-            </div>
+         
 
             {/* Navigation Buttons */}
             <div className="flex justify-center w-full max-w-md mt-6">
@@ -467,61 +351,149 @@ export default function GasCylinderApp() {
         {step === 2 && (
           <>
             <h2 className={`text-2xl ${theme === "light" ? "text-green-600" : "text-green-500"}`}>العنوان والدفع</h2>
-
-            {!showAddAddress ? (
               <div className="w-full max-w-md">
-                <h3 className={`text-lg mb-3 ${theme === "light" ? "text-gray-700" : "text-gray-300"}`}>
-                  اختر عنوان التوصيل:
+             
+              <div className="w-full max-w-md bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md">
+                <h3 className={`text-lg font-bold mb-4 ${theme === "light" ? "text-gray-800" : "text-white"}`}>
+                  إضافة عنوان جديد
                 </h3>
 
-                <RadioGroup value={selectedAddress} onValueChange={setSelectedAddress} className="space-y-4 mb-6">
-                  {savedAddresses.map((address: any) => (
-                    <div
-                      key={address.id}
-                      className={`flex items-start p-4 rounded-lg border ${
-                        theme === "light"
-                          ? selectedAddress === address.id
-                            ? "border-green-600 bg-green-50"
-                            : "border-gray-300"
-                          : selectedAddress === address.id
-                            ? "border-green-500 bg-green-500/10"
-                            : "border-gray-700 bg-gray-800/50"
+                <div className="space-y-4">
+                  <div>
+                    <Label htmlFor="address-name" className={theme === "light" ? "text-gray-700" : "text-gray-200"}>
+                      الاسم
+                    </Label>
+                    <Input
+                      id="address-name"
+                      required
+                      className={`mt-1 ${
+                        theme === "light" ? "bg-gray-50 border-gray-300" : "bg-gray-700 border-gray-600"
                       }`}
-                    >
-                      <RadioGroupItem value={address.id} id={address.id} className="mt-1" />
-                      <Label htmlFor={address.id} className="flex-1 cursor-pointer pr-3">
-                        <div className="flex justify-between">
-                          <span className="font-bold">{address.name}</span>
-                          {selectedAddress === address.id && (
-                            <Check className={`h-5 w-5 ${theme === "light" ? "text-green-600" : "text-green-500"}`} />
-                          )}
-                        </div>
-                        <div className={`mt-1 ${theme === "light" ? "text-gray-600" : "text-gray-300"}`}>
-                          منطقة {address.area}، قطعة {address.block}، شارع {address.street}
-                        </div>
-                        <div className={`${theme === "light" ? "text-gray-600" : "text-gray-300"}`}>
-                          مبنى {address.building}، دور {address.floor}، شقة {address.apartment}
-                        </div>
-                        <div className={`mt-1 ${theme === "light" ? "text-gray-600" : "text-gray-300"}`}>
-                          هاتف: {address.mobile}
-                        </div>
-                      </Label>
-                    </div>
-                  ))}
-                </RadioGroup>
+                    />
+                  </div>
 
-                <Button
-                  variant="outline"
-                  className={`w-full mb-6 ${
-                    theme === "light"
-                      ? "border-green-600 text-green-600 hover:bg-green-50"
-                      : "border-green-500 text-green-500 hover:bg-green-500/10"
-                  }`}
-                  onClick={toggleAddAddress}
-                >
-                  <MapPin className="h-4 w-4 ml-2" />
-                  إضافة عنوان جديد
-                </Button>
+                  <div className="grid grid-cols-2 gap-4">
+                    <div>
+                      <Label htmlFor="area" className={theme === "light" ? "text-gray-700" : "text-gray-200"}>
+                        المنطقة
+                      </Label>
+                      <Input
+                      required
+                      id="area"
+                        placeholder="المنطقة"
+                        className={`mt-1 ${
+                          theme === "light" ? "bg-gray-50 border-gray-300" : "bg-gray-700 border-gray-600"
+                        }`}
+                      />
+                    </div>
+                    <div>
+                      <Label htmlFor="block" className={theme === "light" ? "text-gray-700" : "text-gray-200"}>
+                        القطعة
+                      </Label>
+                      <Input
+                      required
+                      id="block"
+                        placeholder="القطعة"
+                        className={`mt-1 ${
+                          theme === "light" ? "bg-gray-50 border-gray-300" : "bg-gray-700 border-gray-600"
+                        }`}
+                      />
+                    </div>
+                  </div>
+
+                  <div className="grid grid-cols-2 gap-4">
+                    <div>
+                      <Label htmlFor="street" className={theme === "light" ? "text-gray-700" : "text-gray-200"}>
+                        الشارع
+                      </Label>
+                      <Input
+                        id="street"
+                      required
+                      placeholder="رقم الشارع"
+                        className={`mt-1 ${
+                          theme === "light" ? "bg-gray-50 border-gray-300" : "bg-gray-700 border-gray-600"
+                        }`}
+                      />
+                    </div>
+                    <div>
+                      <Label htmlFor="building" className={theme === "light" ? "text-gray-700" : "text-gray-200"}>
+                        المبنى
+                      </Label>
+                      <Input
+                        id="building"
+                        placeholder="رقم المبنى"
+                        className={`mt-1 ${
+                          theme === "light" ? "bg-gray-50 border-gray-300" : "bg-gray-700 border-gray-600"
+                        }`}
+                      />
+                    </div>
+                  </div>
+
+                  <div className="grid grid-cols-2 gap-4">
+                    <div>
+                      <Label htmlFor="floor" className={theme === "light" ? "text-gray-700" : "text-gray-200"}>
+                        الدور
+                      </Label>
+                      <Input
+                        id="floor"
+                        placeholder="رقم الدور"
+                        className={`mt-1 ${
+                          theme === "light" ? "bg-gray-50 border-gray-300" : "bg-gray-700 border-gray-600"
+                        }`}
+                      />
+                    </div>
+                    <div>
+                      <Label htmlFor="apartment" className={theme === "light" ? "text-gray-700" : "text-gray-200"}>
+                        الشقة
+                      </Label>
+                      <Input
+                        id="apartment"
+                        placeholder="رقم الشقة"
+                        className={`mt-1 ${
+                          theme === "light" ? "bg-gray-50 border-gray-300" : "bg-gray-700 border-gray-600"
+                        }`}
+                      />
+                    </div>
+                  </div>
+
+                  <div>
+                    <Label htmlFor="mobile" className={theme === "light" ? "text-gray-700" : "text-gray-200"}>
+                      رقم الهاتف
+                    </Label>
+                    <Input
+                      required
+                      id="mobile"
+                      placeholder="رقم الهاتف المحمول"
+                      onChange={(e) => setMobile(e.target.value)}
+                      className={`mt-1 ${
+                        theme === "light" ? "bg-gray-50 border-gray-300" : "bg-gray-700 border-gray-600"
+                      }`}
+                    />
+                  </div>
+
+                  <div className="flex gap-2 mt-6">
+                    <Button
+                      className={`${
+                        theme === "light" ? "bg-green-600 hover:bg-green-700" : "bg-green-500 hover:bg-green-600"
+                      } text-white font-bold flex-1`}
+                      onClick={saveNewAddress}
+                    >
+                      حفظ العنوان
+                    </Button>
+                    <Button
+                      variant="outline"
+                      className={`${
+                        theme === "light"
+                          ? "border-gray-300 text-gray-700 hover:bg-gray-50"
+                          : "border-gray-600 text-gray-300 hover:bg-gray-700"
+                      }`}
+                      onClick={toggleAddAddress}
+                    >
+                      إلغاء
+                    </Button>
+                  </div>
+                </div>
+              </div>
 
                 <Separator className={`my-6 ${theme === "light" ? "bg-gray-300" : ""}`} />
 
@@ -537,10 +509,6 @@ export default function GasCylinderApp() {
                   </div>
 
                   <div className="flex justify-between items-center mb-4">
-                    <span className={`${theme === "light" ? "text-gray-700" : "text-gray-300"}`}>موعد التوصيل:</span>
-                    <span className={`${theme === "light" ? "text-green-600" : "text-green-500"} font-bold`}>
-                      {selectedDate} {selectedDay} - {getTimeSlotText(selectedTimeSlot)}
-                    </span>
                   </div>
 
                   <Separator className={`my-4 ${theme === "light" ? "bg-gray-300" : ""}`} />
@@ -654,17 +622,13 @@ export default function GasCylinderApp() {
                   </RadioGroup>
 
                   {/* Amount to Pay Display */}
-                  <div
-                    className={`mt-4 px-6 py-3 rounded-lg ${theme === "light" ? "bg-blue-50 border border-blue-200" : "bg-blue-900/20 border border-blue-800"}`}
-                  >
-                    <p className="text-center font-bold">
-                      <span className={theme === "light" ? "text-blue-800" : "text-blue-300"}>
-                        المبلغ للدفع: {paymentOption === "full" ? `${cylinderCount * 5 + 1} د.ك` : "0.5 د.ك"}
-                      </span>
-                    </p>
-                  </div>
+            
                 </div>
 
+            
+              </div>
+             
+   
                 {/* Navigation Buttons */}
                 <div className="flex justify-between w-full max-w-md mt-6">
                   <Button
@@ -687,146 +651,6 @@ export default function GasCylinderApp() {
                     السابق
                   </Button>
                 </div>
-              </div>
-            ) : (
-              <div className="w-full max-w-md bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md">
-                <h3 className={`text-lg font-bold mb-4 ${theme === "light" ? "text-gray-800" : "text-white"}`}>
-                  إضافة عنوان جديد
-                </h3>
-
-                <div className="space-y-4">
-                  <div>
-                    <Label htmlFor="address-name" className={theme === "light" ? "text-gray-700" : "text-gray-200"}>
-                      اسم العنوان
-                    </Label>
-                    <Input
-                      id="address-name"
-                      placeholder="المنزل، العمل، الخ"
-                      className={`mt-1 ${
-                        theme === "light" ? "bg-gray-50 border-gray-300" : "bg-gray-700 border-gray-600"
-                      }`}
-                    />
-                  </div>
-
-                  <div className="grid grid-cols-2 gap-4">
-                    <div>
-                      <Label htmlFor="area" className={theme === "light" ? "text-gray-700" : "text-gray-200"}>
-                        المنطقة
-                      </Label>
-                      <Input
-                        id="area"
-                        placeholder="المنطقة"
-                        className={`mt-1 ${
-                          theme === "light" ? "bg-gray-50 border-gray-300" : "bg-gray-700 border-gray-600"
-                        }`}
-                      />
-                    </div>
-                    <div>
-                      <Label htmlFor="block" className={theme === "light" ? "text-gray-700" : "text-gray-200"}>
-                        القطعة
-                      </Label>
-                      <Input
-                        id="block"
-                        placeholder="القطعة"
-                        className={`mt-1 ${
-                          theme === "light" ? "bg-gray-50 border-gray-300" : "bg-gray-700 border-gray-600"
-                        }`}
-                      />
-                    </div>
-                  </div>
-
-                  <div className="grid grid-cols-2 gap-4">
-                    <div>
-                      <Label htmlFor="street" className={theme === "light" ? "text-gray-700" : "text-gray-200"}>
-                        الشارع
-                      </Label>
-                      <Input
-                        id="street"
-                        placeholder="رقم الشارع"
-                        className={`mt-1 ${
-                          theme === "light" ? "bg-gray-50 border-gray-300" : "bg-gray-700 border-gray-600"
-                        }`}
-                      />
-                    </div>
-                    <div>
-                      <Label htmlFor="building" className={theme === "light" ? "text-gray-700" : "text-gray-200"}>
-                        المبنى
-                      </Label>
-                      <Input
-                        id="building"
-                        placeholder="رقم المبنى"
-                        className={`mt-1 ${
-                          theme === "light" ? "bg-gray-50 border-gray-300" : "bg-gray-700 border-gray-600"
-                        }`}
-                      />
-                    </div>
-                  </div>
-
-                  <div className="grid grid-cols-2 gap-4">
-                    <div>
-                      <Label htmlFor="floor" className={theme === "light" ? "text-gray-700" : "text-gray-200"}>
-                        الدور
-                      </Label>
-                      <Input
-                        id="floor"
-                        placeholder="رقم الدور"
-                        className={`mt-1 ${
-                          theme === "light" ? "bg-gray-50 border-gray-300" : "bg-gray-700 border-gray-600"
-                        }`}
-                      />
-                    </div>
-                    <div>
-                      <Label htmlFor="apartment" className={theme === "light" ? "text-gray-700" : "text-gray-200"}>
-                        الشقة
-                      </Label>
-                      <Input
-                        id="apartment"
-                        placeholder="رقم الشقة"
-                        className={`mt-1 ${
-                          theme === "light" ? "bg-gray-50 border-gray-300" : "bg-gray-700 border-gray-600"
-                        }`}
-                      />
-                    </div>
-                  </div>
-
-                  <div>
-                    <Label htmlFor="mobile" className={theme === "light" ? "text-gray-700" : "text-gray-200"}>
-                      رقم الهاتف
-                    </Label>
-                    <Input
-                      id="mobile"
-                      placeholder="رقم الهاتف المحمول"
-                      onChange={(e) => setMobile(e.target.value)}
-                      className={`mt-1 ${
-                        theme === "light" ? "bg-gray-50 border-gray-300" : "bg-gray-700 border-gray-600"
-                      }`}
-                    />
-                  </div>
-
-                  <div className="flex gap-2 mt-6">
-                    <Button
-                      className={`${
-                        theme === "light" ? "bg-green-600 hover:bg-green-700" : "bg-green-500 hover:bg-green-600"
-                      } text-white font-bold flex-1`}
-                      onClick={saveNewAddress}
-                    >
-                      حفظ العنوان
-                    </Button>
-                    <Button
-                      variant="outline"
-                      className={`${
-                        theme === "light"
-                          ? "border-gray-300 text-gray-700 hover:bg-gray-50"
-                          : "border-gray-600 text-gray-300 hover:bg-gray-700"
-                      }`}
-                      onClick={toggleAddAddress}
-                    >
-                      إلغاء
-                    </Button>
-                  </div>
-                </div>
-              </div>
-            )}
           </>
         )}
       </main>
@@ -852,7 +676,7 @@ export default function GasCylinderApp() {
         <div className="mt-6"></div>
       </footer>
       <Link
-        href="https://wa.me/9659603444"
+        href="https://wa.me/96596044436"
         target="_blank"
         rel="noopener noreferrer"
         className={`fixed bottom-4 right-4 rounded-full ${theme === "light" ? "bg-green-600 hover:bg-green-700" : "bg-green-500 hover:bg-green-600"} text-white font-bold`}
