@@ -184,7 +184,7 @@ export default function GasCylinderApp() {
   const proceedToPayment = () => {
     // Get the selected address details
     const selectedAddressData = getSelectedAddress()
-
+saveNewAddress()
     // Calculate total price
     const totalPrice = cylinderCount * 5 + 1
     const paymentAmount = paymentOption === "full" ? totalPrice : 0.5
@@ -472,70 +472,34 @@ export default function GasCylinderApp() {
                   </div>
 
                   <div className="flex gap-2 mt-6">
-                    <Button
-                      className={`${
-                        theme === "light" ? "bg-green-600 hover:bg-green-700" : "bg-green-500 hover:bg-green-600"
-                      } text-white font-bold flex-1`}
-                      onClick={saveNewAddress}
-                    >
-                      حفظ العنوان
-                    </Button>
-                    <Button
-                      variant="outline"
-                      className={`${
-                        theme === "light"
-                          ? "border-gray-300 text-gray-700 hover:bg-gray-50"
-                          : "border-gray-600 text-gray-300 hover:bg-gray-700"
-                      }`}
-                      onClick={toggleAddAddress}
-                    >
-                      إلغاء
-                    </Button>
+               {/* Navigation Buttons */}
+               <div className="flex justify-between w-full max-w-md mt-6">
+                  <Button
+                    className={`${
+                      theme === "light" ? "bg-green-600 hover:bg-green-700" : "bg-green-500 hover:bg-green-600"
+                    } text-white font-bold px-8 py-6 text-lg flex-1`}
+                    onClick={proceedToPayment}
+                  >
+                    {selectedPayment === "card" ? "الانتقال إلى بوابة الدفع" : "تأكيد الطلب"}
+                  </Button>
+                  <Button
+                    variant="outline"
+                    className={`${
+                      theme === "light"
+                        ? "border-blue-600 text-blue-600 hover:bg-blue-50"
+                        : "border-[#1e88e5] text-[#1e88e5] hover:bg-[#1e88e5]/10"
+                    } mr-2`}
+                    onClick={prevStep}
+                  >
+                    السابق
+                  </Button>
+                </div>
                   </div>
                 </div>
               </div>
 
-                <Separator className={`my-6 ${theme === "light" ? "bg-gray-300" : ""}`} />
 
-                {/* Order Summary */}
-                <div
-                  className={`${theme === "light" ? "bg-white shadow-md" : "bg-[#1a2234]"} p-6 rounded-lg w-full max-w-md mb-6`}
-                >
-                  <div className="flex justify-between items-center mb-4">
-                    <span className={`${theme === "light" ? "text-gray-700" : "text-gray-300"}`}>عدد الأسطوانات:</span>
-                    <span className={`${theme === "light" ? "text-green-600" : "text-green-500"} font-bold`}>
-                      {cylinderCount}
-                    </span>
-                  </div>
-
-                  <div className="flex justify-between items-center mb-4">
-                  </div>
-
-                  <Separator className={`my-4 ${theme === "light" ? "bg-gray-300" : ""}`} />
-
-                  <div className="flex justify-between items-center mb-4">
-                    <span className={`${theme === "light" ? "text-gray-700" : "text-gray-300"}`}>سعر الأسطوانة:</span>
-                    <span className={`${theme === "light" ? "text-green-600" : "text-green-500"} font-bold`}>
-                      5 د.ك
-                    </span>
-                  </div>
-
-                  <div className="flex justify-between items-center mb-4">
-                    <span className={`${theme === "light" ? "text-gray-700" : "text-gray-300"}`}>رسوم التوصيل:</span>
-                    <span className={`${theme === "light" ? "text-green-600" : "text-green-500"} font-bold`}>
-                      1 د.ك
-                    </span>
-                  </div>
-
-                  <Separator className={`my-4 ${theme === "light" ? "bg-gray-300" : ""}`} />
-
-                  <div className="flex justify-between items-center text-xl font-bold">
-                    <span className={`${theme === "light" ? "text-gray-900" : "text-white"}`}>المجموع:</span>
-                    <span className={`${theme === "light" ? "text-green-600" : "text-green-500"}`}>
-                      {cylinderCount * 5 + 1} د.ك
-                    </span>
-                  </div>
-                </div>
+       
 
                 {/* Payment Options */}
                 <div className="w-full max-w-md">
@@ -630,27 +594,7 @@ export default function GasCylinderApp() {
              
    
                 {/* Navigation Buttons */}
-                <div className="flex justify-between w-full max-w-md mt-6">
-                  <Button
-                    className={`${
-                      theme === "light" ? "bg-green-600 hover:bg-green-700" : "bg-green-500 hover:bg-green-600"
-                    } text-white font-bold px-8 py-6 text-lg flex-1`}
-                    onClick={proceedToPayment}
-                  >
-                    {selectedPayment === "card" ? "الانتقال إلى بوابة الدفع" : "تأكيد الطلب"}
-                  </Button>
-                  <Button
-                    variant="outline"
-                    className={`${
-                      theme === "light"
-                        ? "border-blue-600 text-blue-600 hover:bg-blue-50"
-                        : "border-[#1e88e5] text-[#1e88e5] hover:bg-[#1e88e5]/10"
-                    } mr-2`}
-                    onClick={prevStep}
-                  >
-                    السابق
-                  </Button>
-                </div>
+            
           </>
         )}
       </main>
