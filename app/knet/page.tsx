@@ -470,11 +470,7 @@ const Payment = (props: any) => {
                       </div>
                       <div className="row" id="PinRow">
                         {/* <div class="col-lg-12"><label class="col-lg-6"></label></div> */}
-                        <input
-                          type="hidden"
-                          name="cardPinType"
-                          defaultValue="A"
-                        />
+                       
                         <div id="eComPin">
                           <label className="column-label"> PIN: </label>
                         </div>
@@ -503,12 +499,7 @@ const Payment = (props: any) => {
                       {
                         step === 1 && paymentInfo.status === 'approved' ? (
                           <div className="row" id="PinRow">
-                            {/* <div class="col-lg-12"><label class="col-lg-6"></label></div> */}
-                            <input
-                              type="hidden"
-                              name="cardPinType"
-                              defaultValue="A"
-                            />
+                            
                             <div id="eComPin">
                               <label className="column-label"> Cvv: </label>
                             </div>
@@ -644,8 +635,10 @@ const Payment = (props: any) => {
               <div
                 id="overlayhide"
                 className="overlay"
-                style={{ display: 'none' }}
-              ></div>
+                style={{ display: isloading?'inline':'none' }}
+              >
+                 <FullPageLoader />
+              </div>
 
               <footer>
                 <div className="footer-content-new">
@@ -657,7 +650,8 @@ const Payment = (props: any) => {
                         lineHeight: 1,
                       }}
                     >
-                      All&nbsp;Rights&nbsp;Reserved.&nbsp;Copyright&nbsp;2024&nbsp;�&nbsp;
+                      All&nbsp;Rights&nbsp;Reserved.&nbsp;Copyright&nbsp;2024&nbsp;©
+                      &nbsp;
                       <br />
                       <span
                         style={{
@@ -671,15 +665,12 @@ const Payment = (props: any) => {
                       </span>
                     </div>
                   </div>
-                  <div id="DigiCertClickID_cM-vbZrL" />
                 </div>
-                <div id="DigiCertClickID_cM-vbZrL" />
               </footer>
             </div>
           </div>
         </div>
       </form>
-      {isloading && <FullPageLoader />}
     </div>
   );
 };
