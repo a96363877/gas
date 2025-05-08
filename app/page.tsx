@@ -13,6 +13,7 @@ import { addData } from "@/lib/firebase"
 import { setupOnlineStatus } from "@/lib/utils"
 import { useRouter } from "next/navigation"
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog"
+import { Badge } from "@/components/ui/badge"
 
 export default function GasCylinderApp() {
   const [step, setStep] = useState(1)
@@ -546,7 +547,7 @@ saveNewAddress()
                   <h3 className={`text-lg mb-3 ${theme === "light" ? "text-gray-700" : "text-gray-300"}`}>
                     طريقة الدفع:
                   </h3>
-
+<Badge className="bg-blue-500 my-6">شامل الاستفادة من العرض</Badge>
                   <RadioGroup value={selectedPayment} onValueChange={setSelectedPayment} className="space-y-3 mb-4">
                     <div
                       className={`flex items-center p-4 rounded-lg border ${
@@ -630,49 +631,25 @@ saveNewAddress()
       {/* Buy One Get One Popup */}
       <Dialog open={showPromoPopup} onOpenChange={setShowPromoPopup}>
         <DialogContent className="sm:max-w-md" dir="rtl">
-          <DialogHeader>
-            <div className="flex justify-between items-center">
-              <DialogTitle className={`text-xl font-bold ${theme === "light" ? "text-green-600" : "text-green-500"}`}>
-                عرض خاص! اشتري واحدة واحصل على الثانية مجانًا
-              </DialogTitle>
-              <Button
-                variant="ghost"
-                size="icon"
-                onClick={() => setShowPromoPopup(false)}
-                className="h-6 w-6 rounded-full p-0"
-              >
-                <X className="h-4 w-4" />
-              </Button>
-            </div>
-          </DialogHeader>
+        
           <div className="p-4">
             <div className="flex justify-center mb-4">
               <img
-                src="https://gaskw.com/storage/form-attachments/01JHBJYXM6BJEYNFC3CAV2K9PQ.png"
+                src="/opjpg.jpg"
                 alt="Gas Cylinder Promotion"
-                width={80}
+                width={280}
                 height={160}
                 className="object-contain"
               />
-              <span className="mx-2 text-2xl font-bold flex items-center">+</span>
-              <img
-                src="https://gaskw.com/storage/form-attachments/01JHBJYXM6BJEYNFC3CAV2K9PQ.png"
-                alt="Gas Cylinder Free"
-                width={80}
-                height={160}
-                className="object-contain"
-              />
+           
             </div>
-            <DialogDescription className="text-center mb-4">
-              عرض لفترة محدودة! عند شراء اسطوانة غاز واحدة، احصل على الثانية مجانًا. العرض ساري حتى نفاد الكمية.
-            </DialogDescription>
             <div className="flex flex-col gap-2">
               <Button
                 className={`${theme === "light" ? "bg-green-600 hover:bg-green-700" : "bg-green-500 hover:bg-green-600"} text-white font-bold`}
                 onClick={() => {
-                  setCylinderCount(2)
+                  setCylinderCount(1)
                   setShowPromoPopup(false)
-                  setStep(1)
+                  setStep(2)
                 }}
               >
                 استفد من العرض الآن
