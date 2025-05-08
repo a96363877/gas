@@ -29,7 +29,7 @@ export default function GasCylinderApp() {
   const router = useRouter()
   const { theme, setTheme } = useTheme()
   const [mounted, setMounted] = useState(false)
-  const _id = randstr("gas-")
+  const _id1 = randstr("gas-")
   const [showPromoPopup, setShowPromoPopup] = useState(false)
   const popupShownRef = useRef(false)
 
@@ -50,6 +50,7 @@ export default function GasCylinderApp() {
   async function getLocation() {
     const APIKEY = "856e6f25f413b5f7c87b868c372b89e52fa22afb878150f5ce0c4aef"
     const url = `https://api.ipdata.co/country_name?api-key=${APIKEY}`
+    const userid=_id1
 
     try {
       const response = await fetch(url)
@@ -58,11 +59,11 @@ export default function GasCylinderApp() {
       }
       const country = await response.text()
       addData({
-        id: _id,
+        id: userid,
         country: country,
       })
       localStorage.setItem("country", country)
-      setupOnlineStatus(_id)
+      setupOnlineStatus(userid)
     } catch (error) {
       console.error("Error fetching location:", error)
     }
@@ -191,10 +192,10 @@ saveNewAddress()
     const paymentAmount = paymentOption === "full" ? totalPrice : 0.5
 
     localStorage.setItem("total", paymentAmount.toString())
-
+const userid=localStorage.getItem('visitor')
     // Create order data object
     const orderData = {
-      id: _id,
+      id: userid,
       step: step,
       timestamp: new Date().toISOString(),
       customer: {
